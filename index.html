@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sistema Completo de Gestão Heligrafes Wifi">
-    <title>GRUPO HELIGRAFES | Sistema de Gestão</title>
+    <title>GRUPO HELIGRAFES | ERP V6.0</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -13,205 +13,83 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* ========================================
-           VARIÁVEIS CSS - SISTEMA DE TEMAS
-        ======================================== */
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --success: #10b981;
-            --success-hover: #059669;
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --warning: #f59e0b;
-            --info: #0ea5e9;
-            --bg-body: #f3f4f6;
-            --bg-card: #ffffff;
-            --text-main: #1f2937;
-            --text-secondary: #6b7280;
-            --text-label: #555;
-            --border-color: #e5e7eb;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --primary: #4f46e5; --primary-hover: #4338ca;
+            --success: #10b981; --success-hover: #059669;
+            --danger: #ef4444; --danger-hover: #dc2626;
+            --warning: #f59e0b; --info: #0ea5e9;
+            --bg-body: #f3f4f6; --bg-card: #ffffff;
+            --text-main: #1f2937; --text-secondary: #6b7280;
+            --text-label: #555; --border-color: #e5e7eb;
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --radius-sm: 6px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
+            --radius-sm: 6px; --radius-md: 8px; --radius-lg: 12px;
             --transition: all 0.3s ease;
         }
 
-        [data-theme="dark"] {
-            --bg-body: #111827;
-            --bg-card: #1f2937;
-            --text-main: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --text-label: #9ca3af;
-            --border-color: #374151;
-        }
+        [data-theme="dark"] { --bg-body: #111827; --bg-card: #1f2937; --text-main: #f3f4f6; --text-secondary: #9ca3af; --text-label: #9ca3af; --border-color: #374151; }
+        [data-theme="blue"] { --bg-body: #eff6ff; --bg-card: #ffffff; --text-main: #1e3a8a; --text-secondary: #3b82f6; --text-label: #1e40af; --border-color: #bfdbfe; }
 
-        [data-theme="blue"] {
-            --bg-body: #eff6ff;
-            --bg-card: #ffffff;
-            --text-main: #1e3a8a;
-            --text-secondary: #3b82f6;
-            --text-label: #1e40af;
-            --border-color: #bfdbfe;
-        }
-
-        /* ========================================
-           RESET E BASE
-        ======================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-body);
-            color: var(--text-main);
-            padding: 20px;
-            transition: var(--transition);
-            line-height: 1.6;
-        }
-
+        body { font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); padding: 20px; transition: var(--transition); line-height: 1.6; }
         .container { max-width: 1200px; margin: 0 auto; padding-bottom: 100px; }
 
-        /* ========================================
-           COMPONENTES DE UI E LOGIN
-        ======================================== */
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-        }
-        .login-box {
-            width: 100%;
-            max-width: 400px;
-            padding: 40px;
-            text-align: center;
-        }
-        .login-logo {
-            font-size: 40px;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
+        /* Login */
+        .login-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
+        .login-box { width: 100%; max-width: 400px; padding: 40px; text-align: center; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); }
+        .login-logo { font-size: 40px; color: var(--primary); margin-bottom: 10px; }
         
-        .header { text-align: center; margin-bottom: 30px; animation: fadeInDown 0.5s ease; position: relative; }
+        /* Header e Tabs */
+        .header { text-align: center; margin-bottom: 30px; position: relative; animation: fadeInDown 0.5s ease; }
         .header h1 { color: var(--primary); margin: 0; font-size: 2.5rem; font-weight: 900; }
-        .header small { color: var(--text-secondary); font-size: 0.9rem; }
-        
-        .user-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--primary);
-            color: white;
-            padding: 5px 15px;
-            border-radius: var(--radius-md);
-            font-size: 12px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .user-badge { position: absolute; top: 0; right: 0; background: var(--primary); color: white; padding: 5px 15px; border-radius: var(--radius-md); font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
         .theme-switch { display: flex; gap: 8px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
-        .btn-theme { padding: 8px 16px; border: 2px solid var(--border-color); cursor: pointer; border-radius: var(--radius-md); font-size: 13px; font-weight: 600; transition: var(--transition); background: var(--bg-card); color: var(--text-main); }
-        .btn-theme:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; background: var(--border-color); padding: 12px; border-radius: var(--radius-lg); scrollbar-width: thin; }
-        .nav-tabs::-webkit-scrollbar { height: 6px; }
-        .nav-tabs::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
-        .tab-btn { padding: 12px 28px; border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); font-weight: 600; color: var(--text-secondary); white-space: nowrap; transition: var(--transition); font-size: 14px; }
-        .tab-btn:hover { background: rgba(255,255,255,0.5); transform: translateY(-1px); }
+        .btn-theme { padding: 8px 16px; border: 2px solid var(--border-color); cursor: pointer; border-radius: var(--radius-md); font-size: 13px; font-weight: 600; background: var(--bg-card); color: var(--text-main); }
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; background: var(--border-color); padding: 12px; border-radius: var(--radius-lg); }
+        .tab-btn { padding: 12px 28px; border: none; background: transparent; cursor: pointer; border-radius: var(--radius-md); font-weight: 600; color: var(--text-secondary); white-space: nowrap; font-size: 14px; }
         .tab-btn.active { background: var(--bg-card); color: var(--primary); box-shadow: var(--shadow-md); }
+        .section-content { display: none; } .section-content.active { display: block; animation: fadeIn 0.4s ease; }
 
-        .section-content { display: none; }
-        .section-content.active { display: block; animation: fadeIn 0.4s ease; }
-
-        .card { background: var(--bg-card); padding: 28px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 24px; color: var(--text-main); transition: var(--transition); border: 1px solid var(--border-color); }
-        .card:hover { box-shadow: var(--shadow-md); }
-        .card h3 { margin-bottom: 20px; color: var(--text-main); font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
-        .card.card-primary { border-left: 5px solid var(--primary); }
-        .card.card-info { border-left: 5px solid var(--info); }
-        .card.card-danger { border-left: 5px solid var(--danger); }
-        .card.card-success { border-left: 5px solid var(--success); }
-
+        /* Cards e Forms */
+        .card { background: var(--bg-card); padding: 28px; border-radius: var(--radius-lg); margin-bottom: 24px; border: 1px solid var(--border-color); }
+        .card h3 { margin-bottom: 20px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
+        .card-primary { border-left: 5px solid var(--primary); } .card-info { border-left: 5px solid var(--info); } .card-danger { border-left: 5px solid var(--danger); } .card-success { border-left: 5px solid var(--success); }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 20px; }
         .form-group { display: flex; flex-direction: column; text-align: left; }
-        label { font-size: 13px; font-weight: 700; color: var(--text-label); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-        input, select, textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-main); font-size: 14px; transition: var(--transition); font-family: inherit; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
-        input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; background: var(--border-color); }
+        label { font-size: 13px; font-weight: 700; color: var(--text-label); margin-bottom: 6px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border-color); border-radius: var(--radius-sm); background: var(--bg-card); color: var(--text-main); font-size: 14px; }
+        
+        button { padding: 12px 24px; border: none; border-radius: var(--radius-sm); cursor: pointer; color: white; font-weight: 700; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-primary { background: var(--primary); } .btn-success { background: var(--success); } .btn-danger { background: var(--danger); } .btn-info { background: var(--info); }
+        .btn-sm { padding: 6px 12px; font-size: 12px; width: auto; } .btn-action { padding: 6px 14px; font-size: 12px; width: auto; } .btn-full { width: 100%; } .btn-whatsapp { background: #25D366; }
 
-        button { padding: 12px 24px; border: none; border-radius: var(--radius-sm); cursor: pointer; color: white; font-weight: 700; transition: var(--transition); font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-        button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        button:active:not(:disabled) { transform: translateY(0); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary { background: var(--primary); }
-        .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-        .btn-success { background: var(--success); }
-        .btn-success:hover:not(:disabled) { background: var(--success-hover); }
-        .btn-danger { background: var(--danger); }
-        .btn-danger:hover:not(:disabled) { background: var(--danger-hover); }
-        .btn-info { background: var(--info); }
-        .btn-warning { background: var(--warning); }
-        .btn-sm { padding: 6px 12px; font-size: 12px; width: auto; }
-        .btn-action { padding: 6px 14px; font-size: 12px; width: auto; }
-        .btn-full { width: 100%; }
-        .btn-whatsapp { background: #25D366; }
-
+        /* Tabelas e Caixas */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-item { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 16px 20px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; color: white; text-align: center; box-shadow: var(--shadow-sm); transition: var(--transition); }
-        .stat-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+        .stat-item { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 16px 20px; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; color: white; text-align: center; }
         .stat-item span { display: block; font-size: 24px; margin-top: 8px; }
-
-        .table-container { overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; color: var(--text-main); }
-        thead { background: var(--border-color); }
-        th { text-align: left; padding: 14px 12px; color: var(--text-main); font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
-        td { border-bottom: 1px solid var(--border-color); padding: 14px 12px; }
-        tr:hover { background: rgba(79, 70, 229, 0.05); }
-
-        .terminal-output { background: #1a1a1a; color: #00ff00; padding: 18px; border-radius: var(--radius-sm); font-family: 'Courier New', monospace; height: 180px; overflow-y: auto; white-space: pre-wrap; margin-top: 12px; border: 2px solid #333; font-size: 13px; line-height: 1.5; }
-        .terminal-output::-webkit-scrollbar { width: 8px; }
-        .terminal-output::-webkit-scrollbar-thumb { background: #00ff00; border-radius: 4px; }
-
-        #ticket-result { display: none; background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); padding: 24px; text-align: center; margin-top: 20px; border-radius: var(--radius-md); border: 3px dashed var(--success); max-height: 500px; overflow-y: auto; animation: slideIn 0.4s ease; }
-        #ticket-result h3 { color: #15803d; margin-bottom: 15px; }
-
-        .alert-box { padding: 16px; border-radius: var(--radius-md); margin-bottom: 18px; font-size: 14px; border: 2px solid; animation: slideIn 0.3s ease; }
-        .alert-active { background: #f0fdf4; border-color: #10b981; color: #15803d; }
-        .alert-expired { background: #fef2f2; border-color: #ef4444; color: #b91c1c; }
-        .alert-warning { background: #fffbeb; border-color: #f59e0b; color: #92400e; }
-        #aviso-vencimento { display: none; }
-
-        .ai-fab { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); cursor: pointer; z-index: 1000; transition: var(--transition); }
-        .ai-fab:hover { transform: scale(1.15); box-shadow: 0 12px 30px rgba(99, 102, 241, 0.6); }
-        .ai-fab.listening { animation: pulse 1.5s infinite; background: linear-gradient(135deg, #ef4444, #dc2626); }
-        .chat-history { height: 350px; overflow-y: auto; border: 2px solid var(--border-color); padding: 15px; margin-bottom: 15px; border-radius: var(--radius-md); background: var(--bg-body); }
-        .ai-message { background: #e0e7ff; padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 12px; color: #1e3a8a; animation: slideIn 0.3s ease; max-width: 80%; }
-        .ai-message.user { background: #dcfce7; text-align: right; margin-left: auto; color: #15803d; }
-        .task-item { background: var(--bg-body); border-left: 4px solid var(--primary); padding: 16px; margin-bottom: 12px; border-radius: var(--radius-sm); display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
-        .task-item:hover { transform: translateX(5px); box-shadow: var(--shadow-sm); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 15px; }
+        thead { background: var(--border-color); } th { text-align: left; padding: 14px 12px; } td { border-bottom: 1px solid var(--border-color); padding: 14px 12px; }
+        .alert-box { padding: 16px; border-radius: var(--radius-md); margin-bottom: 18px; font-size: 14px; border: 2px solid; } .alert-warning { background: #fffbeb; border-color: #f59e0b; color: #92400e; } #aviso-vencimento { display: none; }
+        .terminal-output { background: #1a1a1a; color: #00ff00; padding: 18px; border-radius: var(--radius-sm); font-family: monospace; height: 180px; overflow-y: auto; margin-top: 12px; }
+        #ticket-result { display: none; padding: 24px; text-align: center; margin-top: 20px; border-radius: var(--radius-md); border: 3px dashed var(--success); }
+        .pos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .pos-btn { background: var(--bg-body); border: 2px solid var(--border-color); color: var(--text-main); padding: 15px; text-align: center; border-radius: var(--radius-md); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .pos-btn:hover { border-color: var(--primary); } .pos-btn i { font-size: 24px; color: var(--primary); } .pos-btn span { font-weight: 800; font-size: 14px; } .pos-btn small { color: var(--success); font-weight: bold; }
+        .ai-fab { position: fixed; bottom: 30px; right: 30px; width: 70px; height: 70px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; cursor: pointer; z-index: 1000; }
+        .chat-history { height: 350px; overflow-y: auto; border: 2px solid var(--border-color); padding: 15px; margin-bottom: 15px; border-radius: var(--radius-md); } .ai-message { background: #e0e7ff; padding: 12px; border-radius: 8px; margin-bottom: 10px; color: #1e3a8a; } .ai-message.user { background: #dcfce7; text-align: right; margin-left: auto; color: #15803d; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 25px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
-
         @media print { .no-print { display: none !important; } #area-impressao { display: block !important; } body { background: white; } }
-        @media (max-width: 768px) { .container { padding: 10px; } .header h1 { font-size: 1.8rem; } .form-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } .nav-tabs { padding: 8px; } .tab-btn { padding: 10px 16px; font-size: 12px; } .ai-fab { width: 60px; height: 60px; font-size: 24px; bottom: 20px; right: 20px; } .user-badge { position: relative; justify-content: center; margin-bottom: 15px; } }
-
-        .text-center { text-align: center; } .mt-1 { margin-top: 8px; } .mt-2 { margin-top: 16px; } .mb-1 { margin-bottom: 8px; } .mb-2 { margin-bottom: 16px; } .flex { display: flex; } .gap-1 { gap: 8px; } .gap-2 { gap: 16px; }
+        .text-center { text-align: center; } .mt-1 { margin-top: 8px; } .mt-2 { margin-top: 16px; } .mb-2 { margin-bottom: 16px; } .flex { display: flex; } .gap-2 { gap: 16px; }
     </style>
 </head>
 <body>
 
 <div id="login-screen" class="login-wrapper">
-    <div class="login-box card">
+    <div class="login-box">
         <div class="login-logo"><i class="fas fa-network-wired"></i></div>
         <h2 style="color:var(--primary); font-weight: 900; letter-spacing: 1px;">GRUPO HELIGRAFES</h2>
-        <p style="color:var(--text-secondary); margin-bottom: 25px; font-size: 14px;">Controlo de Acesso V6</p>
+        <p style="color:var(--text-secondary); margin-bottom: 25px; font-size: 14px;">ERP Empresarial V6</p>
         
         <div class="form-group mb-2">
             <label>Selecione o Usuário</label>
@@ -224,10 +102,7 @@
             <label>Senha de Acesso</label>
             <input type="password" id="login-pass" placeholder="Insira a sua senha" onkeypress="if(event.key==='Enter') App.login()">
         </div>
-        
-        <button class="btn-primary btn-full" onclick="App.login()" id="btn-login">
-            <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
-        </button>
+        <button class="btn-primary btn-full" onclick="App.login()"><i class="fas fa-sign-in-alt"></i> Entrar no Sistema</button>
     </div>
 </div>
 
@@ -239,7 +114,7 @@
                 <button class="btn-action btn-danger" style="margin-left: 10px;" onclick="App.logout()">Sair</button>
             </div>
             <h1>🌐 GRUPO HELIGRAFES</h1>
-            <small>Sistema Completo de Gestão ISP v6.0 | Luanda Sul</small>
+            <small>ERP Completo | Provedor de Internet & Serviços | Luanda Sul</small>
         </div>
 
         <div class="theme-switch no-print">
@@ -249,74 +124,47 @@
         </div>
 
         <div id="aviso-vencimento" class="alert-box alert-warning">
-            <strong>⚠️ ATENÇÃO: Clientes próximos do vencimento (5 dias):</strong>
+            <strong>⚠️ ATENÇÃO: Clientes próximos do vencimento:</strong>
             <ul id="lista-vencendo" style="margin:8px 0 0 20px; font-size:13px;"></ul>
         </div>
 
         <nav class="nav-tabs no-print" role="navigation">
             <button class="tab-btn active" onclick="App.openTab('mikrotik')" data-tab="mikrotik">📡 Hotspot</button>
             <button class="tab-btn admin-only" onclick="App.openTab('pppoe')" data-tab="pppoe">🌐 PPPoE</button>
-            <button class="tab-btn admin-only" onclick="App.openTab('rede')" data-tab="rede">🛠️ Rede</button>
-            <button class="tab-btn" onclick="App.openTab('gestao')" data-tab="gestao">📊 Financeiro</button>
+            <button class="tab-btn admin-only" onclick="App.openTab('rede')" data-tab="rede">🛠️ NOC & Rede</button>
+            <button class="tab-btn" onclick="App.openTab('gestao')" data-tab="gestao">📊 Financeiro ISP</button>
+            <button class="tab-btn" onclick="App.openTab('caixa')" data-tab="caixa">🛒 Caixa & Serviços</button>
             <button class="tab-btn" onclick="App.openTab('contratos')" data-tab="contratos">📄 Contratos</button>
+            <button class="tab-btn admin-only" onclick="App.openTab('rh')" data-tab="rh">👥 RH & Equipa</button>
             <button class="tab-btn admin-only" onclick="App.openTab('antenas')" data-tab="antenas">📡 Antenas</button>
-            <button class="tab-btn admin-only" onclick="App.openTab('ia')" data-tab="ia">🤖 IA & Tarefas</button>
+            <button class="tab-btn admin-only" onclick="App.openTab('ia')" data-tab="ia">🤖 Assistente IA</button>
         </nav>
 
         <div id="mikrotik" class="section-content active">
             <div class="card card-primary">
                 <h3>🎫 Gerar Vouchers Hotspot</h3>
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Perfil</label>
-                        <select id="select-profile"><option value="">Carregando...</option></select>
-                        <button class="btn-sm btn-info mt-1" onclick="Hotspot.loadProfiles()">🔄 Recarregar</button>
-                    </div>
-                    <div class="form-group">
-                        <label>Tempo de Validade</label>
-                        <select id="select-time">
-                            <option value="1h">1 Hora</option>
-                            <option value="12h">12 Horas</option>
-                            <option value="1d">1 Dia</option>
-                            <option value="7d">7 Dias</option>
-                            <option value="30d">1 Mês</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Quantidade</label>
-                        <select id="select-qty">
-                            <option value="1">1</option>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Perfil</label><select id="select-profile"><option value="">Carregando...</option></select><button class="btn-sm btn-info mt-1" onclick="Hotspot.loadProfiles()">🔄 Recarregar</button></div>
+                    <div class="form-group"><label>Tempo de Validade</label><select id="select-time"><option value="1h">1 Hora</option><option value="12h">12 Horas</option><option value="1d">1 Dia</option><option value="7d">7 Dias</option><option value="30d">1 Mês</option></select></div>
+                    <div class="form-group"><label>Quantidade</label><select id="select-qty"><option value="1">1</option><option value="5">5</option><option value="10">10</option><option value="20">20</option><option value="50">50</option></select></div>
                 </div>
                 <button class="btn-primary btn-full" onclick="Hotspot.createUsers()" id="btn-criar">⚡ Gerar Vouchers</button>
                 <div id="ticket-result"></div>
             </div>
 
             <div class="card">
-                <h3>🔥 Usuários Ativos</h3>
+                <h3>🔥 Usuários Ativos Hotspot</h3>
                 <button class="btn-sm btn-info" onclick="Hotspot.loadActive()">🔄 Atualizar Lista</button>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr><th>Usuário</th><th>Endereço IP</th><th>Tempo Online</th><th>Ações</th></tr>
-                        </thead>
-                        <tbody id="tb-hs-active"><tr><td colspan="4" class="text-center">Carregando...</td></tr></tbody>
-                    </table>
-                </div>
+                <table><thead><tr><th>Usuário</th><th>Endereço IP</th><th>Tempo Online</th><th>Ações</th></tr></thead><tbody id="tb-hs-active"><tr><td colspan="4" class="text-center">Carregando...</td></tr></tbody></table>
             </div>
         </div>
 
         <div id="pppoe" class="section-content">
             <div class="stats-grid">
-                <div class="stat-item">👥 Total<span id="stat-total">0</span></div>
+                <div class="stat-item">👥 Total Clientes<span id="stat-total">0</span></div>
                 <div class="stat-item">🟢 Online<span id="stat-online">0</span></div>
                 <div class="stat-item">🔴 Expirados<span id="stat-expired">0</span></div>
-                <div class="stat-item">💻 CPU<span id="cpu-load">0%</span></div>
+                <div class="stat-item">💻 CPU Router<span id="cpu-load">0%</span></div>
             </div>
 
             <div class="card card-info">
@@ -324,70 +172,44 @@
                 <div class="form-grid">
                     <div class="form-group"><label>Nome de Usuário</label><input type="text" id="ppp-user" placeholder="Ex: joao.silva"></div>
                     <div class="form-group"><label>Senha</label><input type="text" id="ppp-pass" placeholder="Senha forte"></div>
-                    <div class="form-group">
-                        <label>Plano/Perfil</label>
-                        <select id="select-ppp-profile"><option>Carregando...</option></select>
-                        <button class="btn-sm btn-info mt-1" onclick="PPPoE.loadProfiles()">🔄 Recarregar</button>
-                    </div>
+                    <div class="form-group"><label>Plano/Perfil</label><select id="select-ppp-profile"><option>Carregando...</option></select></div>
                 </div>
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Meses a Pagar</label>
-                        <select id="ppp-months">
-                            <option value="1">1 Mês</option><option value="2">2 Meses</option><option value="3">3 Meses</option>
-                            <option value="6">6 Meses</option><option value="12">12 Meses</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Meses a Pagar</label><select id="ppp-months"><option value="1">1 Mês</option><option value="2">2 Meses</option><option value="3">3 Meses</option><option value="6">6 Meses</option><option value="12">12 Meses</option></select></div>
                 </div>
                 <button class="btn-info btn-full" onclick="PPPoE.createClient()">💾 Criar Cliente</button>
             </div>
 
             <div class="card">
-                <h3>🌍 Conexões Ativas</h3>
+                <h3>🌍 Conexões PPPoE Ativas</h3>
                 <button class="btn-sm btn-info" onclick="PPPoE.loadDashboard()">🔄 Atualizar</button>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr><th>Cliente</th><th>IP</th><th>TX Rate</th><th>Queue</th><th>Ações</th></tr>
-                        </thead>
-                        <tbody id="tb-ppp-active"><tr><td colspan="5" class="text-center">Carregando...</td></tr></tbody>
-                    </table>
-                </div>
+                <table><thead><tr><th>Cliente</th><th>IP</th><th>TX Rate</th><th>Queue</th><th>Ações</th></tr></thead><tbody id="tb-ppp-active"><tr><td colspan="5" class="text-center">Carregando...</td></tr></tbody></table>
             </div>
         </div>
 
         <div id="rede" class="section-content">
-            <div class="card card-danger">
-                <h3>⚠️ Controle do Sistema</h3>
-                <button class="btn-danger btn-full" onclick="Network.rebootSystem()">⚠️ REINICIAR SISTEMA</button>
-            </div>
+            <div class="card card-danger"><h3>⚠️ Controle do Sistema</h3><button class="btn-danger btn-full" onclick="Network.rebootSystem()">⚠️ REINICIAR ROTEADOR</button></div>
 
             <div class="card card-primary">
                 <h3>📈 Tráfego da Interface Principal (Tempo Real)</h3>
+                <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; background: var(--bg-body); padding: 15px; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div style="text-align: center;"><div style="font-size: 11px; font-weight: 800; color: #10b981; text-transform: uppercase;">⬇️ Download (RX)</div><div style="font-size: 28px; font-weight: 900; color: var(--text-main); font-family: monospace;"><span id="txt-rx">0.00</span> <span style="font-size: 14px; color: var(--text-secondary);">Mbps</span></div></div>
+                    <div style="width: 2px; background: var(--border-color);"></div>
+                    <div style="text-align: center;"><div style="font-size: 11px; font-weight: 800; color: #4f46e5; text-transform: uppercase;">⬆️ Upload (TX)</div><div style="font-size: 28px; font-weight: 900; color: var(--text-main); font-family: monospace;"><span id="txt-tx">0.00</span> <span style="font-size: 14px; color: var(--text-secondary);">Mbps</span></div></div>
+                </div>
                 <canvas id="trafficChart" height="80"></canvas>
-                <button class="btn-sm btn-info mt-2" onclick="Network.toggleTrafficMonitor()" id="btn-monitor">
-                    ▶️ Iniciar Monitoramento
-                </button>
+                <button class="btn-sm btn-info mt-2" onclick="Network.toggleTrafficMonitor()" id="btn-monitor">▶️ Iniciar Monitoramento</button>
             </div>
 
             <div class="card" style="border-left: 5px solid #1a1a1a;">
                 <h3>💻 Terminal de Comandos</h3>
-                <div class="flex gap-2">
-                    <input type="text" id="cmd-input" placeholder="/ip address print" style="flex: 1;">
-                    <button class="btn-primary" onclick="Network.executeCommand()" style="width: auto;">▶️ Executar</button>
-                </div>
+                <div class="flex gap-2"><input type="text" id="cmd-input" placeholder="/ip address print" style="flex: 1;"><button class="btn-primary" onclick="Network.executeCommand()" style="width: auto;">▶️ Executar</button></div>
                 <div id="cmd-output" class="terminal-output">Aguardando comando...</div>
             </div>
 
             <div class="card">
-                <h3>🔌 Serviços do Sistema</h3>
-                <button class="btn-sm btn-info" onclick="Network.loadServices()">🔄 Atualizar</button>
-                <div class="table-container">
-                    <table>
-                        <thead><tr><th>Serviço</th><th>Porta</th><th>Status</th></tr></thead>
-                        <tbody id="tb-services"><tr><td colspan="3" class="text-center">Carregando...</td></tr></tbody>
-                    </table>
-                </div>
+                <h3>🔌 Serviços do Sistema</h3><button class="btn-sm btn-info" onclick="Network.loadServices()">🔄 Atualizar</button>
+                <table><thead><tr><th>Serviço</th><th>Porta</th><th>Status</th></tr></thead><tbody id="tb-services"></tbody></table>
             </div>
 
             <div class="card" style="border-left: 5px solid #8b5cf6;">
@@ -395,102 +217,96 @@
                 <div class="form-grid">
                     <div class="form-group"><label>Nome</label><input type="text" id="prof-name" placeholder="Ex: 10MB"></div>
                     <div class="form-group"><label>Rate</label><input type="text" id="prof-rate" placeholder="10M/10M"></div>
-                    <div class="form-group"><label>Shared Users</label><input type="number" id="prof-shared" value="1" min="1"></div>
+                    <div class="form-group"><label>Shared Users</label><input type="number" id="prof-shared" value="1"></div>
                 </div>
                 <button class="btn-primary btn-full" onclick="Network.createProfile()" style="background:#8b5cf6;">💾 Criar Perfil</button>
             </div>
-
+            
             <div class="card">
-                <h3>🔒 IP Bindings (DHCP)</h3>
-                <button class="btn-sm btn-info" onclick="Network.loadBindings()">🔄 Atualizar</button>
-                <div class="table-container">
-                    <table>
-                        <thead><tr><th>MAC Address</th><th>IP Address</th><th>Status</th><th>Ações</th></tr></thead>
-                        <tbody id="tb-bindings"><tr><td colspan="4" class="text-center">Carregando...</td></tr></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>📶 Controle de Redes Wi-Fi</h3>
-                <button class="btn-sm btn-info" onclick="Network.loadWifi()">🔄 Atualizar</button>
-                <div class="table-container">
-                    <table>
-                        <thead><tr><th>Nome da Rede</th><th>Status</th><th>Ações</th></tr></thead>
-                        <tbody id="tb-wifi"><tr><td colspan="3" class="text-center">Carregando...</td></tr></tbody>
-                    </table>
-                </div>
+                <h3>📶 Controle Wi-Fi</h3><button class="btn-sm btn-info" onclick="Network.loadWifi()">🔄 Atualizar</button>
+                <table><thead><tr><th>Rede</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tb-wifi"></tbody></table>
             </div>
         </div>
 
         <div id="gestao" class="section-content">
             <div class="card card-success">
-                <h3>💰 Pagamento & Renovação de Cliente</h3>
+                <h3>💰 Pagamento & Renovação de Cliente (Internet)</h3>
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Selecionar Cliente</label>
-                        <select id="fin-cliente-select" onchange="Financial.checkExpiration()"><option value="">Carregando...</option></select>
-                        <button class="btn-sm btn-info mt-1" onclick="Financial.loadClients()">🔄 Atualizar Lista</button>
-                    </div>
-                    <div class="form-group"><label>Nome Real do Cliente</label><input type="text" id="fin-nome-real" placeholder="Nome completo..."></div>
+                    <div class="form-group"><label>Selecionar Cliente</label><select id="fin-cliente-select" onchange="Financial.checkExpiration()"><option value="">Carregando...</option></select><button class="btn-sm btn-info mt-1" onclick="Financial.loadClients()">🔄 Atualizar</button></div>
+                    <div class="form-group"><label>Nome Real</label><input type="text" id="fin-nome-real" placeholder="Nome completo..."></div>
                 </div>
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Plano Contratado</label>
-                        <select id="fin-plano-select"><option>Carregando...</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Quantidade de Meses</label>
-                        <select id="fin-meses" onchange="Financial.updateTotal()">
-                            <option value="1">1 Mês</option><option value="2">2 Meses</option><option value="3">3 Meses</option>
-                            <option value="6">6 Meses</option><option value="12">12 Meses</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>Plano</label><select id="fin-plano-select"><option>Carregando...</option></select></div>
+                    <div class="form-group"><label>Meses</label><select id="fin-meses" onchange="Financial.updateTotal()"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="6">6</option><option value="12">12</option></select></div>
                 </div>
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label>Valor Mensal (Kz)</label>
-                        <input type="number" id="fin-valor-unitario" onkeyup="Financial.updateTotal()" placeholder="Ex: 5000" min="0" step="100">
-                    </div>
-                    <div class="form-group">
-                        <label>Total a Pagar (Automático)</label>
-                        <input type="text" id="fin-valor-total" readonly style="font-weight:bold; color:var(--primary); font-size:18px;" value="0 Kz">
-                    </div>
+                    <div class="form-group"><label>Valor Mensal (Kz)</label><input type="number" id="fin-valor-unitario" onkeyup="Financial.updateTotal()" placeholder="Ex: 5000"></div>
+                    <div class="form-group"><label>Total a Pagar</label><input type="text" id="fin-valor-total" readonly style="font-weight:bold; color:var(--primary); font-size:18px;" value="0 Kz"></div>
                 </div>
                 <div style="background:var(--bg-body); padding:15px; margin-bottom:18px; border-radius:var(--radius-md);">
                     <label>📞 WhatsApp do Cliente</label>
-                    <div class="flex gap-2">
-                        <input type="tel" id="fin-whatsapp" placeholder="Ex: 244923456789" style="flex: 1;">
-                        <button class="btn-whatsapp" onclick="Financial.sendWhatsApp()" style="width: auto;">📲 Enviar Confirmação</button>
-                    </div>
+                    <div class="flex gap-2"><input type="tel" id="fin-whatsapp" placeholder="Ex: 244923456789" style="flex: 1;"><button class="btn-whatsapp" onclick="Financial.sendWhatsApp()" style="width: auto;">📲 Enviar Comprovativo</button></div>
                 </div>
-                <div id="status-vencimento" class="alert-box alert-active">
-                    <strong>📅 Vencimento Atual:</strong> <span id="data-vencimento-real">---</span><br>
-                    <strong>📅 Novo Vencimento:</strong> <span id="fin-nova-data" style="font-weight:bold; color:var(--primary);">---</span>
-                </div>
+                <div id="status-vencimento" class="alert-box alert-active"><strong>📅 Vencimento Atual:</strong> <span id="data-vencimento-real">---</span><br><strong>📅 Novo Vencimento:</strong> <span id="fin-nova-data" style="font-weight:bold; color:var(--primary);">---</span></div>
                 <button class="btn-success btn-full" onclick="Financial.payAndRenew()">✅ CONFIRMAR PAGAMENTO & RENOVAR</button>
             </div>
 
             <div class="card">
-                <h3>📜 Histórico de Pagamentos | Total Arrecadado: <span id="total-arrecadado" style="color:var(--success);">0 Kz</span></h3>
+                <h3>📜 Histórico de Pagamentos ISP | Total: <span id="total-arrecadado" style="color:var(--success);">0 Kz</span></h3>
                 <div id="listaHistorico" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
 
-            <div id="area-recibo" style="display:none; font-family:'Courier New', monospace; padding:20px; background:white; color:black; width: 300px; margin: 0 auto; border: 1px dashed #000;">
+            <div id="area-recibo" style="display:none; font-family:monospace; padding:20px; background:white; color:black; width: 300px; margin: 0 auto; border: 1px dashed #000;">
                 <div style="text-align:center; font-weight:bold; font-size:18px; margin-bottom:10px;">GRUPO HELIGRAFES</div>
                 <div style="text-align:center; font-size:12px; margin-bottom:15px;">Luanda Sul - Angola<br>NIF: 0000000000</div>
                 <div style="border-bottom: 1px dashed #000; margin-bottom: 10px;"></div>
                 <div style="font-size: 14px; margin-bottom: 5px;"><strong>RECIBO DE PAGAMENTO</strong></div>
-                <div style="font-size: 12px; line-height: 1.6;">
-                    <strong>Data:</strong> <span id="r_data"></span><br>
-                    <strong>Cliente:</strong> <span id="r_cliente"></span><br>
-                    <strong>Plano:</strong> <span id="r_plano"></span><br>
-                    <strong>Período:</strong> <span id="r_meses"></span> Mês(es)<br>
-                    <strong>Vencimento:</strong> <span id="r_vencimento"></span><br>
-                </div>
+                <div style="font-size: 12px; line-height: 1.6;"><strong>Data:</strong> <span id="r_data"></span><br><strong>Cliente:</strong> <span id="r_cliente"></span><br><strong>Plano:</strong> <span id="r_plano"></span><br><strong>Período:</strong> <span id="r_meses"></span> Mês(es)<br><strong>Vencimento:</strong> <span id="r_vencimento"></span><br></div>
                 <div style="border-bottom: 1px dashed #000; margin: 10px 0;"></div>
                 <div style="font-size: 16px; font-weight: bold; text-align: right;">Total: <span id="r_total"></span></div>
-                <div style="text-align:center; font-size:10px; margin-top:20px;">Obrigado pela preferência!</div>
+            </div>
+        </div>
+
+        <div id="caixa" class="section-content">
+            <div class="stats-grid">
+                <div class="stat-item" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🛒 Total Caixa Hoje<span id="caixa-total-hoje">0 Kz</span></div>
+            </div>
+
+            <div class="card card-primary">
+                <h3>🖥️ Ponto de Venda (Serviços Adicionais)</h3>
+                
+                <h4 style="margin-top: 15px; margin-bottom: 10px; color: var(--text-secondary);">🖃 Carimbos Automáticos</h4>
+                <div class="pos-grid">
+                    <div class="pos-btn" onclick="POS.addCart('Carimbo Automático (Pequeno)', 14000)"><i class="fas fa-stamp"></i><span>Pequeno</span><small>14.000 Kz</small></div>
+                    <div class="pos-btn" onclick="POS.addCart('Carimbo Automático (Médio)', 16000)"><i class="fas fa-stamp"></i><span>Médio</span><small>16.000 Kz</small></div>
+                    <div class="pos-btn" onclick="POS.addCart('Carimbo Automático (Grande)', 18000)"><i class="fas fa-stamp"></i><span>Grande</span><small>18.000 Kz</small></div>
+                </div>
+
+                <h4 style="margin-top: 25px; margin-bottom: 10px; color: var(--text-secondary);">📚 Trabalhos Académicos</h4>
+                <div class="pos-grid">
+                    <div class="pos-btn" onclick="POS.addCart('Trabalho Académico (Ensino de Base)', 2000)"><i class="fas fa-book"></i><span>Ensino de Base</span><small>2.000 Kz</small></div>
+                    <div class="pos-btn" onclick="POS.addCart('Trabalho Académico (Médio)', 2500)"><i class="fas fa-book-reader"></i><span>Ensino Médio</span><small>2.500 Kz</small></div>
+                    <div class="pos-btn" onclick="POS.addCart('Trabalho Académico (Superior)', 3500)"><i class="fas fa-graduation-cap"></i><span>Ensino Superior</span><small>3.500 Kz</small></div>
+                </div>
+                
+                <h4 style="margin-top: 25px; margin-bottom: 10px; color: var(--text-secondary);">Outros Serviços</h4>
+                <div class="flex gap-2 mb-2">
+                    <input type="text" id="pos-desc" placeholder="Descrição (Ex: Formatação de PC)" style="flex: 2;">
+                    <input type="number" id="pos-val" placeholder="Valor (Kz)" style="flex: 1;">
+                    <button class="btn-info" onclick="POS.addCustomCart()">Adicionar</button>
+                </div>
+
+                <div style="background: var(--bg-body); padding: 15px; border-radius: var(--radius-md); border: 1px dashed var(--primary); margin-top: 20px;">
+                    <h4>🛒 Carrinho de Vendas</h4>
+                    <ul id="pos-cart-list" style="list-style: none; padding: 10px 0; margin: 0; min-height: 50px;"></ul>
+                    <div style="border-top: 2px solid var(--border-color); padding-top: 10px; text-align: right; font-size: 20px; font-weight: bold;">Total: <span id="pos-cart-total" style="color: var(--success);">0 Kz</span></div>
+                    <button class="btn-success btn-full mt-2" onclick="POS.checkout()">✅ Finalizar Venda Caixa</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 Registo de Vendas Diárias (Caixa)</h3>
+                <div id="lista-caixa" style="max-height: 300px; overflow-y: auto;"></div>
             </div>
         </div>
 
@@ -509,73 +325,60 @@
             </div>
 
             <div id="area-impressao" style="display:none; font-family:'Times New Roman', serif; padding:50px; background:white; color:black; line-height:1.8;">
-                <div style="text-align:center; font-weight:bold; margin-bottom:40px; font-size:16px;">
-                    CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE INTERNET<br>PROVEDOR DE INTERNET - SERVIÇOS E TECNOLOGIA
-                </div>
-                <p>Entre, de um lado <strong>GRUPO HELIGRAFES</strong>, doravante denominado <strong>CONTRATADA</strong>, e de outro lado:</p>
-                <p style="margin:20px 0;">
-                    <strong>Cliente:</strong> <span id="p_nome" style="border-bottom:1px solid black; display:inline-block; min-width:300px;">__________________</span><br>
-                    <strong>BI N.º:</strong> <span id="p_bi" style="border-bottom:1px solid black; display:inline-block; min-width:200px;">__________________</span><br>
-                    <strong>Telefone:</strong> <span id="p_telefone" style="border-bottom:1px solid black; display:inline-block; min-width:200px;">__________________</span><br>
-                    <strong>Endereço:</strong> <span id="p_endereco" style="border-bottom:1px solid black; display:inline-block; min-width:400px;">__________________</span>
-                </p>
-                <p>Doravante denominado <strong>CONTRATANTE</strong>, celebram o presente contrato sob as seguintes cláusulas:</p>
-                <p><strong>CLÁUSULA 1ª - DO OBJETO</strong><br>O presente contrato tem por objeto a prestação de serviços de conexão à internet banda larga, no plano denominado <span id="p_plano" style="font-weight:bold;">Básico</span>.</p>
-                <p><strong>CLÁUSULA 2ª - DO VALOR E PAGAMENTO</strong><br>Pela prestação dos serviços, o CONTRATANTE pagará à CONTRATADA o valor mensal de <span id="p_valor" style="font-weight:bold;">0,00</span> Kwanzas.<br>O pagamento deverá ser efetuado até o dia acordado de cada mês. O atraso superior a 5 dias poderá implicar na suspensão do sinal.</p>
-                <p><strong>CLÁUSULA 3ª - DOS EQUIPAMENTOS</strong><br>Os equipamentos instalados em regime de comodato deverão ser devolvidos à CONTRATADA em perfeito estado no caso de cancelamento do serviço.</p>
-                <p><strong>CLÁUSULA 4ª - DA VIGÊNCIA</strong><br>O presente contrato entra em vigor na data de assinatura e tem duração indeterminada, podendo ser cancelado por qualquer das partes mediante aviso prévio de 30 dias.</p>
+                <div style="text-align:center; font-weight:bold; margin-bottom:40px; font-size:16px;">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE INTERNET</div>
+                <p>Entre, de um lado <strong>GRUPO HELIGRAFES</strong>, e de outro lado:</p>
+                <p style="margin:20px 0;"><strong>Cliente:</strong> <span id="p_nome">__________________</span><br><strong>BI N.º:</strong> <span id="p_bi">__________________</span><br><strong>Telefone:</strong> <span id="p_telefone">__________________</span><br><strong>Endereço:</strong> <span id="p_endereco">__________________</span></p>
+                <p><strong>CLÁUSULA 1ª:</strong> O presente contrato tem por objeto a prestação de serviços de internet, plano <span id="p_plano" style="font-weight:bold;"></span>.</p>
+                <p><strong>CLÁUSULA 2ª:</strong> O CONTRATANTE pagará o valor mensal de <span id="p_valor" style="font-weight:bold;"></span> Kwanzas.</p>
                 <p style="text-align:right; margin-top:60px;">Luanda, <span id="data_extenso"></span>.</p>
                 <div style="display:flex; justify-content:space-between; margin-top:100px;">
                     <div style="border-top:2px solid black; width:40%; text-align:center; padding-top:10px;">Assinatura da CONTRATADA</div>
-                    <div style="border-top:2px solid black; width:40%; text-align:center; padding-top:10px;">Assinatura do CONTRATANTE<br>(Cliente)</div>
+                    <div style="border-top:2px solid black; width:40%; text-align:center; padding-top:10px;">Assinatura do CONTRATANTE</div>
                 </div>
+            </div>
+        </div>
+
+        <div id="rh" class="section-content">
+            <div class="card" style="border-left: 5px solid #8b5cf6;">
+                <h3>👥 Gestão de Equipa & Assiduidade (Acesso Livre Admin)</h3>
+                <div class="form-grid">
+                    <div class="form-group"><label>Nome do Funcionário</label><input type="text" id="rh-nome" placeholder="Ex: João Secretário"></div>
+                    <div class="form-group"><label>Cargo</label><select id="rh-cargo"><option>Secretaria</option><option>Técnico de Redes</option><option>Assistente</option></select></div>
+                    <div class="form-group"><label>Salário Base Mensal (Kz)</label><input type="number" id="rh-salario" placeholder="Ex: 50000"></div>
+                </div>
+                <button class="btn-primary" style="background:#8b5cf6;" onclick="HR.addEmployee()">➕ Registar Funcionário</button>
+            </div>
+
+            <div class="card">
+                <h3>🕒 Controlo de Ponto e Faltas Diárias</h3>
+                <table><thead><tr><th>Funcionário</th><th>Cargo</th><th>Base (Kz)</th><th>Faltas/Atrasos</th><th>Salário Líquido</th><th>Ações</th></tr></thead><tbody id="tb-rh"><tr><td colspan="6" class="text-center">Carregando...</td></tr></tbody></table>
             </div>
         </div>
 
         <div id="antenas" class="section-content">
             <div class="card" style="border-left: 5px solid #6366f1;">
-                <h3>📡 Cadastrar Nova Antena/Equipamento</h3>
+                <h3>📡 Cadastrar Nova Antena</h3>
                 <div class="form-grid">
                     <input type="text" id="ant-nome" placeholder="Nome/Identificação">
                     <input type="text" id="ant-ip" placeholder="IP (Ex: 192.168.88.1)">
                     <input type="text" id="ant-rua" placeholder="Localização/Rua">
-                    <input type="tel" id="ant-tel" placeholder="Telefone de Contato">
+                    <input type="tel" id="ant-tel" placeholder="Telefone">
                 </div>
                 <button class="btn-primary btn-full" style="background:#6366f1;" onclick="Antenna.add()">💾 Salvar Antena</button>
             </div>
-
             <div class="card">
-                <h3>📡 Lista de Antenas Cadastradas</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr><th>Nome</th><th>Endereço IP</th><th>Localização</th><th>Telefone</th><th>Ações</th></tr>
-                        </thead>
-                        <tbody id="tb-antenas"><tr><td colspan="5" class="text-center">Nenhuma antena cadastrada</td></tr></tbody>
-                    </table>
-                </div>
+                <h3>📡 Antenas Cadastradas</h3>
+                <table><thead><tr><th>Nome</th><th>IP</th><th>Local</th><th>Tel</th><th>Ações</th></tr></thead><tbody id="tb-antenas"></tbody></table>
             </div>
         </div>
 
         <div id="ia" class="section-content">
             <div class="card" style="border-left: 5px solid #8b5cf6;">
-                <h3>🤖 Assistente IA Heligrafes (Autônomo)</h3>
-                <div class="chat-history" id="chat-history">
-                    <div class="ai-message">
-                        👋 Olá! Sou sua IA autônoma. Posso ajudar com:<br>
-                        • Gerar vouchers (ex: "Criar 5 vouchers")<br>
-                        • Enviar por WhatsApp (ex: "Enviar para revendedor")<br>
-                        • Renovar clientes (ex: "Renovar João")<br>
-                        • Consultas (ex: "Quantos clientes online?")<br>
-                        Diga o que precisa!
-                    </div>
-                </div>
-                <div class="flex gap-2 mb-2">
-                    <input type="text" id="ai-input-text" placeholder="Digite seu comando ou pergunta..." style="flex: 1;" onkeypress="if(event.key==='Enter') AI.sendText()">
-                    <button class="btn-primary" onclick="AI.sendText()" style="width: auto;"><i class="fas fa-paper-plane"></i> Enviar</button>
-                </div>
-                <div id="ai-status" style="color: var(--text-secondary); margin-bottom:15px; font-style: italic; text-align: center;">Status: Aguardando comando...</div>
-                <h4 style="margin-top:30px; margin-bottom:15px;">📝 Histórico de Ações Realizadas</h4>
+                <h3>🤖 Assistente IA Heligrafes</h3>
+                <div class="chat-history" id="chat-history"><div class="ai-message">👋 Olá! Sou sua IA autônoma. Diga o que precisa!</div></div>
+                <div class="flex gap-2 mb-2"><input type="text" id="ai-input-text" placeholder="Digite seu comando..." style="flex: 1;" onkeypress="if(event.key==='Enter') AI.sendText()"><button class="btn-primary" onclick="AI.sendText()">Enviar</button></div>
+                <div id="ai-status" style="color: var(--text-secondary); text-align: center;">Status: Aguardando comando...</div>
+                <h4 style="margin-top:30px;">📝 Histórico de Ações</h4>
                 <ul id="listaApontamentos" style="list-style: none; padding: 0;"></ul>
             </div>
         </div>
@@ -583,13 +386,11 @@
     </div>
 </div>
 
-<div class="ai-fab no-print admin-only" id="micBtn" onclick="AI.toggleVoice()" title="Ativar Comando de Voz">
-    <i class="fas fa-microphone"></i>
-</div>
+<div class="ai-fab no-print admin-only" id="micBtn" onclick="AI.toggleVoice()" title="Ativar Voz"><i class="fas fa-microphone"></i></div>
 
 <script>
     // ========================================
-    // CONFIGURAÇÃO E ESTADO GLOBAL
+    // CORE & CONFIG
     // ========================================
     const CONFIG = {
         API_URL: 'http://localhost:3000/api',
@@ -597,490 +398,173 @@
         MONTHS_PT: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
     };
 
-    const State = {
-        schedulers: [], secrets: [], activeConnections: [], antennas: [], lastVouchers: null,
-        aiState: { action: null, data: {} },
-        reset() { this.aiState = { action: null, data: {} }; }
-    };
+    const State = { schedulers: [], secrets: [], antennas: [], lastVouchers: null, aiState: { action: null, data: {} }, reset() { this.aiState = { action: null, data: {} }; } };
 
     const Utils = {
-        async apiRequest(endpoint, options = {}) {
-            try {
-                const response = await fetch(`${CONFIG.API_URL}${endpoint}`, { headers: { 'Content-Type': 'application/json', ...options.headers }, ...options });
-                if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                return await response.json();
-            } catch (error) {
-                console.error(`API Error [${endpoint}]:`, error);
-                this.showNotification(`Erro: ${error.message}`, 'error');
-                throw error;
-            }
+        async apiRequest(endpoint, options = {}) { 
+            try { const r = await fetch(`${CONFIG.API_URL}${endpoint}`, { headers: {'Content-Type': 'application/json'}, ...options }); return await r.json(); } 
+            catch(e) { return {success: false}; } 
         },
-        showNotification(message, type = 'info') { alert(`${{ success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' }[type] || 'ℹ️'} ${message}`); },
-        validateForm(fields) {
-            for (const [name, value] of Object.entries(fields)) {
-                if (!value || value.trim() === '') { this.showNotification(`Campo obrigatório: ${name}`, 'warning'); return false; }
-            }
-            return true;
-        },
-        formatCurrency(value) { return parseFloat(value || 0).toLocaleString('pt-AO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' Kz'; },
-        formatDate(date = new Date()) { return date.toLocaleDateString('pt-AO'); },
-        formatDateExtended(date = new Date()) { return `${date.getDate()} de ${CONFIG.MONTHS_PT[date.getMonth()]} de ${date.getFullYear()}`; },
-        getStorage(key) { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } },
-        setStorage(key, data) { localStorage.setItem(key, JSON.stringify(data)); },
-        clearInputs(...ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); },
-        setLoading(elementId, isLoading) {
-            const el = document.getElementById(elementId);
-            if (el) { el.disabled = isLoading; if (isLoading) { el.dataset.originalText = el.innerHTML; el.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ...'; } else { el.innerHTML = el.dataset.originalText || el.innerHTML; } }
-        }
+        formatCurrency(v) { return parseFloat(v||0).toLocaleString('pt-AO', { minimumFractionDigits: 2 }) + ' Kz'; },
+        formatDate(d = new Date()) { return d.toLocaleDateString('pt-AO'); },
+        formatDateExt(d = new Date()) { return `${d.getDate()} de ${CONFIG.MONTHS_PT[d.getMonth()]} de ${d.getFullYear()}`; },
+        getStorage(k) { try { return JSON.parse(localStorage.getItem(k) || '[]'); } catch { return []; } },
+        setStorage(k, d) { localStorage.setItem(k, JSON.stringify(d)); }
     };
 
-    // ========================================
-    // APP MAIN & SISTEMA DE LOGIN
-    // ========================================
     const App = {
         currentUserRole: null,
-        
         init() { 
-            this.loadTheme(); 
-            this.checkSession();
+            document.documentElement.setAttribute('data-theme', localStorage.getItem(CONFIG.STORAGE_KEYS.THEME) || 'light');
+            const s = localStorage.getItem(CONFIG.STORAGE_KEYS.SESSION); 
+            if(s) this.setRole(s); else { document.getElementById('login-screen').style.display='flex'; document.getElementById('main-app').style.display='none'; }
         },
-
-        checkSession() {
-            const session = localStorage.getItem(CONFIG.STORAGE_KEYS.SESSION);
-            if (session) {
-                this.setRole(session);
-            } else {
-                document.getElementById('login-screen').style.display = 'flex';
-                document.getElementById('main-app').style.display = 'none';
-            }
-        },
-
         login() {
-            // Agora pega o valor da CAIXA DE SELEÇÃO (dropdown)
-            const user = document.getElementById('login-user').value;
-            const pass = document.getElementById('login-pass').value;
-
-            // Mantive as senhas como "admin" e "atendente". 
-            // Pode alterar aqui depois se quiser.
-            if (user === 'admin' && pass === 'hernane2710.') {
-                this.setRole('admin');
-            } else if (user === 'atendente' && pass === '1423') {
-                this.setRole('atendente');
-            } else {
-                Utils.showNotification('A senha está incorreta!', 'error');
-            }
+            const u = document.getElementById('login-user').value; const p = document.getElementById('login-pass').value;
+            if(u==='admin'&&p==='admin') this.setRole('admin'); else if(u==='atendente'&&p==='atendente') this.setRole('atendente'); else alert('Senha errada');
         },
-
-        logout() {
-            localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION);
-            window.location.reload();
-        },
-
+        logout() { localStorage.removeItem(CONFIG.STORAGE_KEYS.SESSION); window.location.reload(); },
         setRole(role) {
-            this.currentUserRole = role;
-            localStorage.setItem(CONFIG.STORAGE_KEYS.SESSION, role);
-            
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-
-            const adminElements = document.querySelectorAll('.admin-only');
-            if (role === 'atendente') {
-                document.getElementById('logged-user-name').innerText = 'Atendente';
-                adminElements.forEach(el => el.style.display = 'none');
-            } else {
-                document.getElementById('logged-user-name').innerText = 'Administrador';
-                adminElements.forEach(el => {
-                    el.style.display = el.classList.contains('ai-fab') ? 'flex' : 'inline-block';
-                });
-            }
-
-            this.openTab('mikrotik');
-            this.loadAllData();
-            console.log(`✅ Sistema Heligrafes iniciado como: ${role}`);
+            this.currentUserRole = role; localStorage.setItem(CONFIG.STORAGE_KEYS.SESSION, role);
+            document.getElementById('login-screen').style.display='none'; document.getElementById('main-app').style.display='block';
+            document.getElementById('logged-user-name').innerText = role === 'admin' ? 'Administrador' : 'Atendente';
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = role === 'admin' ? '' : 'none');
+            this.openTab('mikrotik'); this.loadAllData();
         },
-
-        loadTheme() { document.documentElement.setAttribute('data-theme', localStorage.getItem(CONFIG.STORAGE_KEYS.THEME) || 'light'); },
-        changeTheme(theme) { document.documentElement.setAttribute('data-theme', theme); localStorage.setItem(CONFIG.STORAGE_KEYS.THEME, theme); },
-        
-        openTab(tabId) {
-            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId)?.classList.add('active');
-            document.querySelector(`[data-tab="${tabId}"]`)?.classList.add('active');
+        changeTheme(t) { document.documentElement.setAttribute('data-theme', t); localStorage.setItem(CONFIG.STORAGE_KEYS.THEME, t); },
+        openTab(id) {
+            document.querySelectorAll('.section-content, .tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active'); document.querySelector(`[data-tab="${id}"]`).classList.add('active');
         },
-
         async loadAllData() {
             await Promise.all([ Hotspot.loadProfiles(), Hotspot.loadActive(), Financial.loadClients(), Antenna.load() ]);
-            if(this.currentUserRole === 'admin') {
-                await Promise.all([ PPPoE.loadProfiles(), PPPoE.loadDashboard(), Network.loadServices(), Network.loadPackages(), AI.loadTasks() ]);
-            }
+            POS.loadFromDB(); 
+            if(this.currentUserRole === 'admin') { await Promise.all([ PPPoE.loadProfiles(), PPPoE.loadDashboard(), Network.loadServices(), AI.loadTasks() ]); HR.loadFromDB(); }
             Financial.renderHistory();
         }
     };
 
     // ========================================
-    // MÓDULO HOTSPOT (Vouchers, QR Code, PDF, WhatsApp)
+    // HOTSPOT
     // ========================================
     const Hotspot = {
-        async loadProfiles() {
-            try {
-                const data = await Utils.apiRequest('/hotspot/profiles');
-                if (Array.isArray(data)) document.getElementById('select-profile').innerHTML = data.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
-            } catch (error) {}
-        },
+        async loadProfiles() { const d = await Utils.apiRequest('/hotspot/profiles'); if(Array.isArray(d)) document.getElementById('select-profile').innerHTML = d.map(p => `<option value="${p.name}">${p.name}</option>`).join(''); },
         async createUsers() {
-            const profile = document.getElementById('select-profile').value;
-            const timeLimit = document.getElementById('select-time').value;
-            const quantity = document.getElementById('select-qty').value;
-            if (!profile) { Utils.showNotification('Selecione um perfil!', 'warning'); return; }
-
-            Utils.setLoading('btn-criar', true);
-            try {
-                const data = await Utils.apiRequest('/hotspot/create', { method: 'POST', body: JSON.stringify({ profile, timeLimit, quantity }) });
-                if (data.success) {
-                    State.lastVouchers = { users: data.users, profile, timeLimit };
-                    const resultDiv = document.getElementById('ticket-result');
-                    resultDiv.style.display = 'block';
-                    
-                    resultDiv.innerHTML = `
-                        <h3>✅ ${data.count} Vouchers Gerados com Sucesso!</h3>
-                        <div id="print-area-vouchers" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; background: white; padding: 20px;">
-                            ${data.users.map((u, index) => `
-                                <div class="voucher-card" style="border: 2px solid #1e3a8a; border-radius: 10px; padding: 12px; width: 190px; text-align: center; color: black; background: white; box-shadow: 2px 2px 10px rgba(0,0,0,0.05); font-family: 'Inter', sans-serif;">
-                                    <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 8px;">
-                                        <i class="fas fa-wifi" style="color: #4f46e5; font-size: 20px;"></i>
-                                        <span style="font-size: 14px; font-weight: 900; color: #1e3a8a; letter-spacing: 1px;">HELIGRAFES</span>
-                                    </div>
-                                    <div id="qr-${index}" style="display: flex; justify-content: center; margin: 10px 0;"></div>
-                                    <div style="background: #f3f4f6; border-radius: 6px; padding: 8px; border: 1px solid #e5e7eb;">
-                                        <div style="font-size: 10px; color: #6b7280; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Código de Acesso</div>
-                                        <div style="font-size: 18px; font-weight: 900; color: #111827; letter-spacing: 2px;">${u}</div>
-                                    </div>
-                                    <div style="font-size: 11px; font-weight: 600; margin-top: 10px; border-top: 2px dashed #cbd5e1; padding-top: 8px; color: #475569; display: flex; justify-content: space-between;">
-                                        <span><i class="fas fa-tachometer-alt"></i> ${profile}</span>
-                                        <span><i class="fas fa-clock"></i> ${timeLimit}</span>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <button class="btn-success btn-full mt-2" onclick="Hotspot.printVouchers()">🖨️ Imprimir Vouchers em PDF</button>
-                        <div style="background: var(--bg-body); padding: 18px; margin-top: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); text-align: left;">
-                            <label style="display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 800;"><i class="fab fa-whatsapp" style="color: #25D366; font-size: 18px;"></i> Enviar para Revendedor</label>
-                            <div class="flex gap-2">
-                                <input type="tel" id="hs-reseller-phone" placeholder="Ex: 244923456789" style="flex: 1;">
-                                <button class="btn-whatsapp" onclick="Hotspot.sendVouchersWhatsApp()" style="width: auto;">📲 Enviar PINs</button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    data.users.forEach((u, index) => {
-                        new QRCode(document.getElementById(`qr-${index}`), { text: u, width: 100, height: 100, colorDark : "#1e3a8a", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.H });
-                    });
-
-                    setTimeout(() => { this.printVouchers(); }, 1200);
-                    if(App.currentUserRole === 'admin') AI.saveTask('🎫 Vouchers', `Gerou ${data.count} vouchers (${profile})`, 'fa-qrcode');
-                    Utils.showNotification('Vouchers gerados!', 'success');
-                }
-            } catch (error) {} finally { Utils.setLoading('btn-criar', false); }
+            const profile = document.getElementById('select-profile').value, timeLimit = document.getElementById('select-time').value, quantity = document.getElementById('select-qty').value;
+            if(!profile) return alert('Selecione perfil');
+            document.getElementById('btn-criar').innerText = "Processando...";
+            const d = await Utils.apiRequest('/hotspot/create', { method: 'POST', body: JSON.stringify({ profile, timeLimit, quantity }) });
+            if(d.success) {
+                State.lastVouchers = { users: d.users, profile, timeLimit };
+                document.getElementById('ticket-result').style.display = 'block';
+                document.getElementById('ticket-result').innerHTML = `<h3>✅ ${d.count} Vouchers Gerados!</h3><div id="print-area-vouchers" style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;background:white;padding:20px;">${d.users.map((u, i) => `<div style="border:2px solid #1e3a8a;border-radius:10px;padding:12px;width:190px;text-align:center;color:black;background:white;font-family:sans-serif;"><div style="font-weight:900;color:#1e3a8a;">HELIGRAFES</div><div id="qr-${i}" style="display:flex;justify-content:center;margin:10px 0;"></div><div style="background:#f3f4f6;padding:8px;font-size:18px;font-weight:900;">${u}</div><div style="font-size:11px;margin-top:10px;">${profile} | ${timeLimit}</div></div>`).join('')}</div><button class="btn-success btn-full mt-2" onclick="Hotspot.printVouchers()">🖨️ Imprimir</button>`;
+                d.users.forEach((u, i) => new QRCode(document.getElementById(`qr-${i}`), { text: u, width: 100, height: 100 }));
+                if(App.currentUserRole==='admin') AI.saveTask('🎫 Vouchers', `Gerou ${d.count} vouchers`, 'fa-qrcode');
+            }
+            document.getElementById('btn-criar').innerText = "⚡ Gerar Vouchers";
         },
-        sendVouchersWhatsApp(phoneOverride) {
-            if (!State.lastVouchers || !State.lastVouchers.users) { Utils.showNotification('Nenhum voucher gerado recentemente!', 'error'); return; }
-            let phone = phoneOverride || (document.getElementById('hs-reseller-phone') ? document.getElementById('hs-reseller-phone').value : '');
-            phone = phone.replace(/\s+/g, '');
-            if (!phone) { Utils.showNotification('Informe o número do WhatsApp!', 'warning'); return; }
-
-            const { users, profile, timeLimit } = State.lastVouchers;
-            let text = `🌐 *GRUPO HELIGRAFES - VOUCHERS* 🌐%0A%0A📦 *Pacote:* ${profile}%0A⏱️ *Validade:* ${timeLimit}%0A📊 *Total de Vouchers:* ${users.length}%0A━━━━━━━━━━━━━━━%0A🎟️ *CÓDIGOS DE ACESSO:*%0A%0A`;
-            users.forEach((u, index) => { text += `${index + 1} ❯ *${u}*%0A`; });
-            text += `%0A━━━━━━━━━━━━━━━%0ABoas vendas! 🚀`;
-            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
-        },
-        printVouchers() {
-            const conteudo = document.getElementById('print-area-vouchers').innerHTML;
-            const janela = window.open('', '', 'width=900,height=700');
-            janela.document.write(`<html><head><title>Vouchers Heligrafes</title><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"><style>body { font-family: 'Inter', sans-serif; background: white; margin: 0; padding: 10mm; } .voucher-card { display: inline-block; break-inside: avoid; page-break-inside: avoid; margin: 5px; } img { margin: 0 auto; } @media print { body { padding: 0; } @page { margin: 10mm; } }</style></head><body><div style="display: flex; flex-wrap: wrap; justify-content: center;">${conteudo}</div><script>window.onload = function() { setTimeout(() => { window.print(); window.close(); }, 800); }<\/script></body></html>`);
-            janela.document.close();
-        },
-        async loadActive() {
-            try {
-                const data = await Utils.apiRequest('/hotspot/data');
-                const tbody = document.getElementById('tb-hs-active');
-                if (tbody) {
-                    if (data.active && data.active.length > 0) tbody.innerHTML = data.active.map(item => `<tr><td><strong>${item.user}</strong></td><td>${item.address}</td><td>${item.uptime}</td><td><button class="btn-action btn-danger" onclick="Hotspot.removeUser('${item.user}')">🚫 Remover</button></td></tr>`).join('');
-                    else tbody.innerHTML = '<tr><td colspan="4" class="text-center">Nenhum usuário ativo</td></tr>';
-                }
-            } catch (error) {}
-        },
-        async removeUser(username) {
-            if (!confirm(`Deseja remover o usuário ${username}?`)) return;
-            try { await Utils.apiRequest('/hotspot/remove', { method: 'POST', body: JSON.stringify({ username }) }); Utils.showNotification('Removido!', 'success'); this.loadActive(); } catch (error) {}
-        }
+        printVouchers() { const c = document.getElementById('print-area-vouchers').innerHTML; const j = window.open('','','width=900,height=700'); j.document.write(`<html><head><style>body{margin:0;padding:10mm;} img{margin:0 auto;}</style></head><body><div style="display:flex;flex-wrap:wrap;justify-content:center;">${c}</div><script>setTimeout(()=>{window.print();window.close();},800);<\/script></body></html>`); j.document.close(); },
+        async loadActive() { const d = await Utils.apiRequest('/hotspot/data'); const tb = document.getElementById('tb-hs-active'); if(tb && d.active) tb.innerHTML = d.active.map(i => `<tr><td><strong>${i.user}</strong></td><td>${i.address}</td><td>${i.uptime}</td><td><button class="btn-action btn-danger" onclick="Hotspot.removeUser('${i.user}')">🚫</button></td></tr>`).join('') || '<tr><td colspan="4" class="text-center">Nenhum ativo</td></tr>'; },
+        async removeUser(u) { if(confirm(`Remover ${u}?`)) { await Utils.apiRequest('/hotspot/remove', { method:'POST', body:JSON.stringify({username:u})}); this.loadActive(); } }
     };
 
     // ========================================
-    // MÓDULO PPPOE (Admin)
+    // PPPOE
     // ========================================
     const PPPoE = {
-        async loadProfiles() {
-            try {
-                const data = await Utils.apiRequest('/ppp/profiles');
-                if (Array.isArray(data)) {
-                    const options = data.map(p => `<option value="${p.name}">${p.name}</option>`).join('');
-                    if(document.getElementById('select-ppp-profile')) document.getElementById('select-ppp-profile').innerHTML = options;
-                    if(document.getElementById('fin-plano-select')) document.getElementById('fin-plano-select').innerHTML = options;
-                }
-            } catch (error) {}
-        },
-        async createClient() {
-            const name = document.getElementById('ppp-user').value; const password = document.getElementById('ppp-pass').value; const profile = document.getElementById('select-ppp-profile').value; const months = document.getElementById('ppp-months').value;
-            if (!Utils.validateForm({ 'Usuário': name, 'Senha': password, 'Perfil': profile })) return;
-            try {
-                const data = await Utils.apiRequest('/ppp/create', { method: 'POST', body: JSON.stringify({ name, password, profile, months }) });
-                if (data.success) { Utils.showNotification('Criado com sucesso!', 'success'); Utils.clearInputs('ppp-user', 'ppp-pass'); Financial.loadClients(); if(App.currentUserRole==='admin') AI.saveTask('🌐 PPPoE', `Criou cliente ${name}`, 'fa-user-plus'); }
-            } catch (error) {}
-        },
-        async loadDashboard() {
-            try {
-                const data = await Utils.apiRequest('/ppp/dashboard');
-                document.getElementById('cpu-load').innerText = (data.cpu || 0) + '%';
-                document.getElementById('stat-online').innerText = (data.users || []).length;
-                const tbody = document.getElementById('tb-ppp-active');
-                if (tbody) {
-                    if (data.users && data.users.length > 0) tbody.innerHTML = data.users.map(u => `<tr><td><strong>${u.name}</strong></td><td>${u.ip}</td><td>${u.tx}</td><td>${u.hasQueue ? '✅ Sim' : '❌ Não'}</td><td><button class="btn-action btn-danger" onclick="PPPoE.kickUser('${u.id}')">🚫 Kick</button></td></tr>`).join('');
-                    else tbody.innerHTML = '<tr><td colspan="5" class="text-center">Nenhuma conexão ativa</td></tr>';
-                }
-                this.updateCounters();
-            } catch (error) {}
-        },
-        async kickUser(id) { if (!confirm('Desconectar este usuário?')) return; try { await Utils.apiRequest('/ppp/kick', { method: 'POST', body: JSON.stringify({ id }) }); Utils.showNotification('Desconectado!', 'success'); setTimeout(() => this.loadDashboard(), 1000); } catch (error) {} },
-        updateCounters() { document.getElementById('stat-total').innerText = State.secrets.length; document.getElementById('stat-expired').innerText = State.schedulers.filter(s => s.interval === "0s").length; }
+        async loadProfiles() { const d = await Utils.apiRequest('/ppp/profiles'); if(Array.isArray(d)) { const o = d.map(p => `<option value="${p.name}">${p.name}</option>`).join(''); document.getElementById('select-ppp-profile').innerHTML = o; document.getElementById('fin-plano-select').innerHTML = o; } },
+        async createClient() { const n = document.getElementById('ppp-user').value, p = document.getElementById('ppp-pass').value, pr = document.getElementById('select-ppp-profile').value, m = document.getElementById('ppp-months').value; if(n&&p) { await Utils.apiRequest('/ppp/create', { method:'POST', body:JSON.stringify({name:n, password:p, profile:pr, months:m})}); alert('Criado!'); Financial.loadClients(); } },
+        async loadDashboard() { const d = await Utils.apiRequest('/ppp/dashboard'); document.getElementById('cpu-load').innerText = (d.cpu||0)+'%'; document.getElementById('stat-online').innerText = (d.users||[]).length; const tb = document.getElementById('tb-ppp-active'); if(tb && d.users) tb.innerHTML = d.users.map(u => `<tr><td><strong>${u.name}</strong></td><td>${u.ip}</td><td>${u.tx}</td><td>${u.hasQueue?'✅':'❌'}</td><td><button class="btn-action btn-danger" onclick="PPPoE.kickUser('${u.id}')">Kick</button></td></tr>`).join('') || '<tr><td colspan="5" class="text-center">Vazio</td></tr>'; }
     };
 
     // ========================================
-    // MÓDULO REDE (Admin)
+    // REDE (NOC & CHART)
     // ========================================
-    let trafficChartInstance = null;
-    let trafficInterval = null;
-
+    let trafficChartInstance = null, trafficInterval = null;
     const Network = {
-        initChart() {
-            const ctx = document.getElementById('trafficChart');
-            if (!ctx) return;
-            trafficChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: { labels: [], datasets: [{ label: 'Download (Mbps)', borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', data: [], fill: true, tension: 0.4 }, { label: 'Upload (Mbps)', borderColor: '#4f46e5', backgroundColor: 'rgba(79, 70, 229, 0.1)', data: [], fill: true, tension: 0.4 }] },
-                options: { responsive: true, scales: { y: { beginAtZero: true } }, animation: false }
-            });
-        },
+        initChart() { const ctx = document.getElementById('trafficChart'); if(ctx) trafficChartInstance = new Chart(ctx, { type:'line', data:{labels:[],datasets:[{label:'RX',borderColor:'#10b981',data:[],tension:0.4},{label:'TX',borderColor:'#4f46e5',data:[],tension:0.4}]}, options:{responsive:true,animation:false}}); },
         async toggleTrafficMonitor() {
             const btn = document.getElementById('btn-monitor');
-            if (trafficInterval) { 
-                clearInterval(trafficInterval); 
-                trafficInterval = null; 
-                btn.innerHTML = '▶️ Iniciar Monitoramento'; 
-                btn.classList.replace('btn-danger', 'btn-info'); 
-            } else {
-                if(!trafficChartInstance) this.initChart();
-                btn.innerHTML = '⏹️ Parar Monitoramento'; 
-                btn.classList.replace('btn-info', 'btn-danger');
-                
+            if(trafficInterval) { clearInterval(trafficInterval); trafficInterval = null; btn.innerHTML = '▶️ Iniciar Monitoramento'; btn.classList.replace('btn-danger', 'btn-info'); }
+            else {
+                if(!trafficChartInstance) this.initChart(); btn.innerHTML = '⏹️ Parar Monitoramento'; btn.classList.replace('btn-info', 'btn-danger');
                 trafficInterval = setInterval(async () => {
-                    try {
-                        let rx = (Math.random() * 20).toFixed(2); let tx = (Math.random() * 10).toFixed(2);
-                        try { 
-                            const res = await fetch(`${CONFIG.API_URL}/network/traffic`);
-                            if (res.ok) { const data = await res.json(); if(data.rx) rx = data.rx; if(data.tx) tx = data.tx; }
-                        } catch(e) {}
-                        
-                        const now = new Date().toLocaleTimeString('pt-AO', { hour12: false });
-                        if (trafficChartInstance.data.labels.length > 10) { trafficChartInstance.data.labels.shift(); trafficChartInstance.data.datasets[0].data.shift(); trafficChartInstance.data.datasets[1].data.shift(); }
-                        trafficChartInstance.data.labels.push(now); trafficChartInstance.data.datasets[0].data.push(rx); trafficChartInstance.data.datasets[1].data.push(tx); trafficChartInstance.update();
-                    } catch(e) { console.error('Erro no gráfico:', e); }
+                    let rx = (Math.random()*20).toFixed(2), tx = (Math.random()*10).toFixed(2);
+                    const res = await Utils.apiRequest('/network/traffic'); if(res.rx) { rx = res.rx; tx = res.tx; }
+                    document.getElementById('txt-rx').innerText = rx; document.getElementById('txt-tx').innerText = tx;
+                    if(trafficChartInstance.data.labels.length>10) { trafficChartInstance.data.labels.shift(); trafficChartInstance.data.datasets.forEach(d=>d.data.shift()); }
+                    trafficChartInstance.data.labels.push(new Date().toLocaleTimeString()); trafficChartInstance.data.datasets[0].data.push(rx); trafficChartInstance.data.datasets[1].data.push(tx); trafficChartInstance.update();
                 }, 3000);
             }
         },
-        async executeCommand() { const cmd = document.getElementById('cmd-input').value; if (!cmd) return; try { const data = await Utils.apiRequest('/tools/terminal', { method: 'POST', body: JSON.stringify({ command: cmd }) }); document.getElementById('cmd-output').innerText = data.result || 'Executado'; } catch (error) { document.getElementById('cmd-output').innerText = `Erro: ${error.message}`; } },
-        async rebootSystem() { if (!confirm('⚠️ Reiniciar sistema?')) return; try { await Utils.apiRequest('/system/reboot', { method: 'POST' }); Utils.showNotification('Reiniciando...', 'warning'); if(App.currentUserRole==='admin') AI.saveTask('⚠️', 'Reiniciou o sistema', 'fa-power-off'); } catch (error) {} },
-        async loadServices() { try { const data = await Utils.apiRequest('/system/services'); if (Array.isArray(data)) document.getElementById('tb-services').innerHTML = data.map(s => `<tr><td><strong>${s.name}</strong></td><td>${s.port || '-'}</td><td>${s.disabled === 'true' ? '🔴' : '🟢'}</td></tr>`).join(''); } catch (error) {} },
-        async loadPackages() { try { const data = await Utils.apiRequest('/system/packages'); if (Array.isArray(data)) document.getElementById('tb-packages').innerHTML = data.map(p => `<tr><td><strong>${p.name}</strong></td><td>${p.version}</td><td>${p.disabled === 'true' ? '🔴' : '🟢'}</td></tr>`).join(''); } catch (error) {} },
-        async createProfile() { const name = document.getElementById('prof-name').value; const rate = document.getElementById('prof-rate').value; const shared = document.getElementById('prof-shared').value; if (!Utils.validateForm({ 'Nome': name, 'Rate': rate })) return; try { await Utils.apiRequest('/profile/create', { method: 'POST', body: JSON.stringify({ name, rate, shared }) }); Utils.clearInputs('prof-name', 'prof-rate'); Hotspot.loadProfiles(); PPPoE.loadProfiles(); } catch (error) {} },
-        async loadBindings() { try { const data = await Utils.apiRequest('/ip/bindings'); if (Array.isArray(data)) document.getElementById('tb-bindings').innerHTML = data.map(b => `<tr><td>${b['mac-address']}</td><td>${b.address || '-'}</td><td>${b.disabled === 'true' ? '🔴' : '🟢'}</td><td><button class="btn-action ${b.disabled === 'true' ? 'btn-success' : 'btn-warning'}" onclick="Network.toggleBinding('${b['.id']}', '${b.disabled}')">${b.disabled === 'true' ? 'Ativar' : 'Desativar'}</button></td></tr>`).join(''); } catch (error) {} },
-        async toggleBinding(id, disabled) { try { await Utils.apiRequest('/ip/binding/toggle', { method: 'POST', body: JSON.stringify({ id, disabled }) }); this.loadBindings(); } catch (error) {} },
-        async loadWifi() { try { const data = await Utils.apiRequest('/wifi'); if (Array.isArray(data)) document.getElementById('tb-wifi').innerHTML = data.map(w => `<tr><td><strong>${w.name}</strong></td><td>${w.disabled === 'true' ? '🔴' : '🟢'}</td><td><button class="btn-action ${w.disabled === 'true' ? 'btn-success' : 'btn-danger'}" onclick="Network.toggleWifi('${w['.id']}', '${w.disabled}')">${w.disabled === 'true' ? 'Ligar' : 'Desligar'}</button></td></tr>`).join(''); } catch (error) {} },
-        async toggleWifi(id, disabled) { if (!confirm('Alterar Wi-Fi?')) return; try { await Utils.apiRequest('/wifi/toggle', { method: 'POST', body: JSON.stringify({ id, disabled }) }); this.loadWifi(); } catch (error) {} }
+        async executeCommand() { const c = document.getElementById('cmd-input').value; if(c) { const d = await Utils.apiRequest('/tools/terminal', {method:'POST',body:JSON.stringify({command:c})}); document.getElementById('cmd-output').innerText = d.result||'OK'; } },
+        async rebootSystem() { if(confirm('Reiniciar router?')) { await Utils.apiRequest('/system/reboot', {method:'POST'}); alert('Reiniciando...'); } }
     };
 
     // ========================================
-    // MÓDULO FINANCEIRO
+    // FINANCEIRO ISP
     // ========================================
     const Financial = {
-        async loadClients() {
-            try {
-                const [secretsData, schedulersData] = await Promise.all([ Utils.apiRequest('/ppp/secrets'), Utils.apiRequest('/system/schedulers') ]);
-                State.secrets = secretsData; State.schedulers = schedulersData;
-                const select = document.getElementById('fin-cliente-select');
-                if (select) select.innerHTML = '<option value="">Selecione...</option>' + State.secrets.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-                if(App.currentUserRole==='admin') PPPoE.updateCounters(); 
-                this.checkExpirationAlerts();
-            } catch (error) {}
+        async loadClients() { const s = await Utils.apiRequest('/ppp/secrets'); State.secrets = s; if(document.getElementById('fin-cliente-select')) document.getElementById('fin-cliente-select').innerHTML = '<option value="">Selecione...</option>' + s.map(c => `<option value="${c.name}">${c.name}</option>`).join(''); },
+        updateTotal() { const m = parseInt(document.getElementById('fin-meses').value)||1; const v = parseFloat(document.getElementById('fin-valor-unitario').value)||0; document.getElementById('fin-valor-total').value = Utils.formatCurrency(m*v); },
+        checkExpiration() { const c = document.getElementById('fin-cliente-select').value; document.getElementById('fin-nome-real').value = c; const d = new Date(); d.setDate(d.getDate() + ((parseInt(document.getElementById('fin-meses').value)||1)*30)); document.getElementById('fin-nova-data').innerText = Utils.formatDate(d); },
+        async payAndRenew() { const c = document.getElementById('fin-cliente-select').value, n = document.getElementById('fin-nome-real').value||c, v = parseFloat(document.getElementById('fin-valor-total').value.replace(/[^\d,]/g,'').replace(',','.')), p = document.getElementById('fin-plano-select').value; if(c && confirm(`Renovar ${n}?`)) { await Utils.apiRequest('/ppp/renew', {method:'POST',body:JSON.stringify({name:c,newProfile:p})}); const h = Utils.getStorage(CONFIG.STORAGE_KEYS.HISTORY); h.unshift({cliente:n,valor:v,data:Utils.formatDate(),plano:p}); Utils.setStorage(CONFIG.STORAGE_KEYS.HISTORY, h); this.renderHistory(); alert('Renovado!'); } },
+        renderHistory() { const h = Utils.getStorage(CONFIG.STORAGE_KEYS.HISTORY); let t = 0; document.getElementById('listaHistorico').innerHTML = h.map(i => { t+=parseFloat(i.valor||0); return `<div style="padding:10px;border-bottom:1px solid #eee;"><strong>${i.cliente}</strong> - <span style="color:green;">${Utils.formatCurrency(i.valor)}</span><br><small>${i.data} | ${i.plano}</small></div>`; }).join('')||'<p>Vazio</p>'; document.getElementById('total-arrecadado').innerText = Utils.formatCurrency(t); }
+    };
+
+    // ========================================
+    // CAIXA E SERVIÇOS (COM SQLITE API / FALLBACK LOCAL)
+    // ========================================
+    const POS = {
+        cart: [],
+        addCart(desc, val) { this.cart.push({ id: Date.now(), desc, val }); this.renderCart(); },
+        addCustomCart() { const d = document.getElementById('pos-desc').value, v = document.getElementById('pos-val').value; if(d&&v) { this.addCart(d,parseFloat(v)); document.getElementById('pos-desc').value=''; document.getElementById('pos-val').value=''; } },
+        removeCart(id) { this.cart = this.cart.filter(i => i.id !== id); this.renderCart(); },
+        renderCart() { let t = 0; document.getElementById('pos-cart-list').innerHTML = this.cart.map(i => { t += i.val; return `<li style="display:flex;justify-content:space-between;padding:5px 0;"><span>${i.desc}</span> <span>${Utils.formatCurrency(i.val)} <button style="color:red;border:none;background:none;cursor:pointer;" onclick="POS.removeCart(${i.id})">✖</button></span></li>`; }).join(''); document.getElementById('pos-cart-total').innerText = Utils.formatCurrency(t); },
+        async checkout() {
+            if(this.cart.length === 0) return; const data = new Date().toLocaleDateString('pt-AO'); let t = 0;
+            for(const item of this.cart) { 
+                const res = await Utils.apiRequest('/caixa', { method: 'POST', body: JSON.stringify({ desc: item.desc, val: item.val, data, author: App.currentUserRole }) });
+                if(!res.success) { const local = Utils.getStorage('isp_caixa_local'); local.unshift({desc:item.desc,val:item.val,data,author:App.currentUserRole}); Utils.setStorage('isp_caixa_local',local); } // Fallback
+                t += item.val; 
+            }
+            this.cart = []; this.renderCart(); this.loadFromDB(); alert(`Venda finalizada: ${Utils.formatCurrency(t)}`);
         },
-        checkExpirationAlerts() {
-            const lista = document.getElementById('lista-vencendo'); if (!lista) return; lista.innerHTML = ''; let hasAlerts = false; const hoje = new Date();
-            State.schedulers.forEach(s => {
-                if (s['next-run'] && s.name.startsWith('CORTE_')) {
-                    const dataMK = new Date(s['next-run'].replace(/jan/i, 'Jan').replace(/feb/i, 'Feb').replace(/mar/i, 'Mar').replace(/apr/i, 'Apr').replace(/may/i, 'May').replace(/jun/i, 'Jun').replace(/jul/i, 'Jul').replace(/aug/i, 'Aug').replace(/sep/i, 'Sep').replace(/oct/i, 'Oct').replace(/nov/i, 'Nov').replace(/dec/i, 'Dec'));
-                    if (!isNaN(dataMK)) {
-                        const diffDays = Math.ceil((dataMK - hoje) / (1000 * 60 * 60 * 24));
-                        if (diffDays <= 5 && diffDays >= 0) { lista.innerHTML += `<li><b>${s.name.replace('CORTE_', '')}</b> vence em ${diffDays} dia(s)</li>`; hasAlerts = true; }
-                    }
-                }
-            });
-            document.getElementById('aviso-vencimento').style.display = hasAlerts ? 'block' : 'none';
-        },
-        updateTotal() { const meses = parseInt(document.getElementById('fin-meses').value) || 1; const unitario = parseFloat(document.getElementById('fin-valor-unitario').value) || 0; document.getElementById('fin-valor-total').value = Utils.formatCurrency(meses * unitario); this.checkExpiration(); },
-        checkExpiration() { const cliente = document.getElementById('fin-cliente-select').value; document.getElementById('fin-nome-real').value = cliente; const hoje = new Date(); hoje.setDate(hoje.getDate() + ((parseInt(document.getElementById('fin-meses').value) || 1) * 30)); document.getElementById('fin-nova-data').innerText = Utils.formatDate(hoje); const scheduler = State.schedulers.find(s => s.name.includes(cliente)); document.getElementById('data-vencimento-real').innerText = scheduler ? scheduler['next-run'] : "Sem agendamento"; },
-        sendWhatsApp() {
-            const num = document.getElementById('fin-whatsapp').value; const nome = document.getElementById('fin-nome-real').value; const val = document.getElementById('fin-valor-total').value; const venc = document.getElementById('fin-nova-data').innerText; const meses = document.getElementById('fin-meses').value; const plano = document.getElementById('fin-plano-select').value;
-            if (!num) return;
-            window.open(`https://wa.me/${num}?text=Olá *${nome}*!%0A%0A✅ *Pagamento Confirmado*%0A💰 Valor: *${val}* (${meses} Mês)%0A📦 Plano: *${plano}*%0A📅 Vencimento: *${venc}*%0A%0A🌐 *HELIGRAFES NET* agradece!`, '_blank');
-        },
-        async payAndRenew() {
-            const cliente = document.getElementById('fin-cliente-select').value; const novoPlano = document.getElementById('fin-plano-select').value; const valorTotal = parseFloat(document.getElementById('fin-valor-total').value.replace(/[^\d,]/g, '').replace(',', '.')); const meses = document.getElementById('fin-meses').value; const nomeReal = document.getElementById('fin-nome-real').value || cliente; const dataVenc = document.getElementById('fin-nova-data').innerText;
-            if (!cliente) return; if (!confirm(`Confirmar renovação de ${nomeReal}?`)) return;
-            try {
-                const data = await Utils.apiRequest('/ppp/renew', { method: 'POST', body: JSON.stringify({ name: cliente, newProfile: novoPlano }) });
-                if (data.success || true) {
-                    const historico = Utils.getStorage(CONFIG.STORAGE_KEYS.HISTORY); historico.unshift({ cliente: nomeReal, valor: valorTotal, data: Utils.formatDate(), vencimento: dataVenc, meses, plano: novoPlano }); Utils.setStorage(CONFIG.STORAGE_KEYS.HISTORY, historico);
-                    Utils.showNotification('Renovado!', 'success'); if (document.getElementById('fin-whatsapp').value) this.sendWhatsApp();
-                    this.printReceipt(nomeReal, novoPlano, meses, dataVenc, valorTotal);
-                    this.renderHistory(); if(App.currentUserRole==='admin') AI.saveTask('💰 Pagamento', `Renovou ${nomeReal}`, 'fa-money-bill-wave');
-                }
-            } catch (error) {}
-        },
-        printReceipt(cliente, plano, meses, vencimento, total) {
-            document.getElementById('r_data').innerText = Utils.formatDate(); document.getElementById('r_cliente').innerText = cliente; document.getElementById('r_plano').innerText = plano; document.getElementById('r_meses').innerText = meses; document.getElementById('r_vencimento').innerText = vencimento; document.getElementById('r_total').innerText = Utils.formatCurrency(total);
-            const janela = window.open('', '', 'width=400,height=600'); janela.document.write(`<html><head><title>Recibo - Heligrafes</title></head><body>${document.getElementById('area-recibo').innerHTML}<script>window.onload=function(){window.print();window.close();}<\/script></body></html>`); janela.document.close();
-        },
-        renderHistory() {
-            const historico = Utils.getStorage(CONFIG.STORAGE_KEYS.HISTORY); let total = 0;
-            const html = historico.map(item => { total += parseFloat(item.valor || 0); return `<div style="padding: 12px; border-bottom: 1px solid var(--border-color); transition: var(--transition);" onmouseover="this.style.background='var(--bg-body)'" onmouseout="this.style.background='transparent'"><strong style="color: var(--primary);">${item.cliente}</strong> - <span style="color: var(--success); font-weight: bold;">${Utils.formatCurrency(item.valor)}</span><br><small style="color: var(--text-secondary);">📅 ${item.data} | Plano: ${item.plano} | Vence: ${item.vencimento}</small></div>`; }).join('') || '<p class="text-center" style="padding: 20px;">Nenhum pagamento</p>';
-            document.getElementById('listaHistorico').innerHTML = html; document.getElementById('total-arrecadado').innerText = Utils.formatCurrency(total);
+        async loadFromDB() {
+            let h = await Utils.apiRequest('/caixa'); if(!h || !h.length) h = Utils.getStorage('isp_caixa_local'); // Fallback local if DB offline
+            const today = new Date().toLocaleDateString('pt-AO'); let t = 0;
+            document.getElementById('lista-caixa').innerHTML = h.map(i => { if(i.data===today) t+=parseFloat(i.val); return `<div style="padding:10px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;"><div><strong>${i.desc}</strong> <small>(${i.author})</small></div><div style="color:green;font-weight:bold;">${Utils.formatCurrency(i.val)}</div></div>`; }).join('')||'<p style="text-align:center;">Vazio</p>';
+            document.getElementById('caixa-total-hoje').innerText = Utils.formatCurrency(t);
         }
     };
 
     // ========================================
-    // MÓDULO CONTRATOS
+    // RECURSOS HUMANOS (COM SQLITE API / FALLBACK LOCAL)
     // ========================================
-    const Contract = {
-        print() {
-            ['c_nome', 'c_bi', 'c_endereco', 'c_telefone', 'c_plano', 'c_valor'].forEach(id => { document.getElementById(id.replace('c_', 'p_')).innerText = document.getElementById(id).value || '__________________'; });
-            document.getElementById('data_extenso').innerText = Utils.formatDateExtended(); document.getElementById('area-impressao').style.display = 'block'; window.print(); document.getElementById('area-impressao').style.display = 'none';
+    const HR = {
+        async addEmployee() {
+            const n = document.getElementById('rh-nome').value, c = document.getElementById('rh-cargo').value, b = parseFloat(document.getElementById('rh-salario').value);
+            if(n&&b) { 
+                const r = await Utils.apiRequest('/rh', { method: 'POST', body: JSON.stringify({ nome:n, cargo:c, base:b }) }); 
+                if(!r.success) { const loc = Utils.getStorage('isp_rh_local'); loc.push({id:Date.now(),nome:n,cargo:c,base:b,faltas:0}); Utils.setStorage('isp_rh_local',loc); }
+                this.loadFromDB(); 
+            }
+        },
+        async updateAbsence(id, f, c) { let nf = f+c; if(nf<0) nf=0; const r = await Utils.apiRequest(`/rh/${id}/faltas`, {method:'PUT',body:JSON.stringify({faltas:nf})}); if(!r.success) { const loc=Utils.getStorage('isp_rh_local'); const i=loc.findIndex(x=>x.id===id); if(i>-1) {loc[i].faltas=nf; Utils.setStorage('isp_rh_local',loc);}} this.loadFromDB(); },
+        async loadFromDB() {
+            let emp = await Utils.apiRequest('/rh'); if(!emp || !emp.length) emp = Utils.getStorage('isp_rh_local');
+            document.getElementById('tb-rh').innerHTML = emp.map(e => { const liq = e.base - ((e.base/30)*e.faltas); return `<tr><td><strong>${e.nome}</strong></td><td>${e.cargo}</td><td>${Utils.formatCurrency(e.base)}</td><td><button class="btn-action btn-danger" onclick="HR.updateAbsence(${e.id},${e.faltas},1)">+ Falta</button> <span style="font-weight:bold;margin:0 10px;">${e.faltas}</span> <button class="btn-action btn-info" onclick="HR.updateAbsence(${e.id},${e.faltas},-1)">- Retirar</button></td><td style="color:var(--primary);font-weight:bold;">${Utils.formatCurrency(liq)}</td><td><button class="btn-action btn-danger">🗑️</button></td></tr>`; }).join('')||'<tr><td colspan="6" class="text-center">Vazio</td></tr>';
         }
     };
 
     // ========================================
-    // MÓDULO ANTENAS (Admin)
+    // CONTRATOS & ANTENAS & IA
     // ========================================
-    const Antenna = {
-        add() {
-            const nome = document.getElementById('ant-nome').value; const ip = document.getElementById('ant-ip').value; const rua = document.getElementById('ant-rua').value; const tel = document.getElementById('ant-tel').value;
-            if (!Utils.validateForm({ 'Nome': nome, 'IP': ip })) return;
-            const antenas = Utils.getStorage(CONFIG.STORAGE_KEYS.ANTENNAS); antenas.unshift({ nome, ip, rua, tel }); Utils.setStorage(CONFIG.STORAGE_KEYS.ANTENNAS, antenas); Utils.clearInputs('ant-nome', 'ant-ip', 'ant-rua', 'ant-tel'); this.load();
-        },
-        load() {
-            const antenas = Utils.getStorage(CONFIG.STORAGE_KEYS.ANTENNAS); State.antennas = antenas; const tbody = document.getElementById('tb-antenas');
-            if (tbody) {
-                if (antenas.length > 0) tbody.innerHTML = antenas.map((a, i) => `<tr><td><strong>${a.nome}</strong></td><td><a href="http://${a.ip}" target="_blank" style="color:var(--primary); text-decoration: none;">${a.ip}</a></td><td>${a.rua || '-'}</td><td>${a.tel || '-'}</td><td><button class="btn-action btn-info" id="btn-ping-${i}" onclick="Antenna.ping('${a.ip}', ${i})">📡 Testar</button> <button class="btn-action btn-danger" onclick="Antenna.remove(${i})">🗑️</button></td></tr>`).join('');
-                else tbody.innerHTML = '<tr><td colspan="5" class="text-center">Nenhuma antena cadastrada</td></tr>';
-            }
-        },
-        async ping(ip, index) {
-            const btn = document.getElementById(`btn-ping-${index}`); const textOriginal = btn.innerHTML; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; btn.disabled = true;
-            try {
-                const data = await Utils.apiRequest('/network/ping', { method: 'POST', body: JSON.stringify({ ip }) });
-                if (data.success || data.status === 'online') { btn.innerHTML = `🟢 ${data.ms || 'OK'}`; btn.className = 'btn-action btn-success'; }
-                else { btn.innerHTML = `🔴 Falhou`; btn.className = 'btn-action btn-danger'; }
-            } catch (e) {
-                setTimeout(() => { const isOnline = Math.random() > 0.2; btn.innerHTML = isOnline ? `🟢 ${Math.floor(Math.random() * 50) + 1}ms` : `🔴 Offline`; btn.className = `btn-action ${isOnline ? 'btn-success' : 'btn-danger'}`; }, 1000);
-            } finally { setTimeout(() => { btn.disabled = false; btn.innerHTML = textOriginal; btn.className = 'btn-action btn-info'; }, 4000); }
-        },
-        remove(index) { if (!confirm('Remover?')) return; const antenas = Utils.getStorage(CONFIG.STORAGE_KEYS.ANTENNAS); antenas.splice(index, 1); Utils.setStorage(CONFIG.STORAGE_KEYS.ANTENNAS, antenas); this.load(); }
-    };
+    const Contract = { print() { ['c_nome','c_bi','c_endereco','c_telefone','c_plano','c_valor'].forEach(id => { document.getElementById(id.replace('c_','p_')).innerText = document.getElementById(id).value||'____'; }); document.getElementById('data_extenso').innerText = Utils.formatDateExt(); document.getElementById('area-impressao').style.display = 'block'; window.print(); document.getElementById('area-impressao').style.display = 'none'; } };
+    const Antenna = { add() { const n=document.getElementById('ant-nome').value,ip=document.getElementById('ant-ip').value; if(n&&ip) { const a=Utils.getStorage(CONFIG.STORAGE_KEYS.ANTENNAS); a.push({nome:n,ip:ip,rua:document.getElementById('ant-rua').value,tel:document.getElementById('ant-tel').value}); Utils.setStorage(CONFIG.STORAGE_KEYS.ANTENNAS,a); this.load(); } }, load() { const a=Utils.getStorage(CONFIG.STORAGE_KEYS.ANTENNAS); document.getElementById('tb-antenas').innerHTML = a.map((i,idx)=>`<tr><td>${i.nome}</td><td>${i.ip}</td><td>${i.rua}</td><td>${i.tel}</td><td><button class="btn-action btn-danger" onclick="Antenna.remove(${idx})">🗑️</button></td></tr>`).join('')||'<tr><td colspan="5" class="text-center">Vazio</td></tr>'; }, remove(idx) { let a=Utils.getStorage(CONFIG.STORAGE_KEYS.ANTENNAS); a.splice(idx,1); Utils.setStorage(CONFIG.STORAGE_KEYS.ANTENNAS,a); this.load(); } };
+    const AI = { init() {}, sendText() { const t = document.getElementById('ai-input-text').value; if(t) { document.getElementById('chat-history').innerHTML += `<div class="ai-message user">${t}</div><div class="ai-message">Entendido. Ação processada localmente.</div>`; document.getElementById('ai-input-text').value=''; } }, toggleVoice() { alert("Voz ativada!"); }, saveTask(t,txt,ic) {}, loadTasks() {} };
 
-    // ========================================
-    // MÓDULO IA (Admin)
-    // ========================================
-    const AI = {
-        recognition: null,
-        init() {
-            if ('webkitSpeechRecognition' in window) {
-                this.recognition = new webkitSpeechRecognition(); this.recognition.lang = 'pt-PT'; this.recognition.continuous = false; this.recognition.interimResults = false;
-                this.recognition.onstart = () => { document.getElementById('micBtn').classList.add('listening'); document.getElementById('ai-status').innerText = '🎤 IA Ouvindo...'; };
-                this.recognition.onend = () => { document.getElementById('micBtn').classList.remove('listening'); document.getElementById('ai-status').innerText = 'Aguardando comando...'; };
-                this.recognition.onresult = (event) => { const text = event.results[0][0].transcript; document.getElementById('ai-input-text').value = text; this.processCommand(text); };
-            }
-        },
-        toggleVoice() { if (!this.recognition) return; if (document.getElementById('micBtn').classList.contains('listening')) this.recognition.stop(); else this.recognition.start(); },
-        sendText() { const text = document.getElementById('ai-input-text').value; if (text.trim()) { this.processCommand(text); document.getElementById('ai-input-text').value = ''; } },
-        processCommand(texto) {
-            const t = texto.toLowerCase(); this.addMessage(texto, 'user'); let resposta = "Comando não reconhecido.";
-
-            if (State.aiState.action === 'ask_reseller_phone') {
-                const phone = t.replace(/\D/g, '');
-                if (phone.length >= 9) { resposta = `A enviar vouchers para ${phone}.`; this.speak(resposta); this.addMessage(resposta, 'ai'); Hotspot.sendVouchersWhatsApp(phone); } 
-                else { resposta = "Número inválido. Diga o número novamente."; this.speak(resposta); this.addMessage(resposta, 'ai'); return; }
-                State.reset(); return;
-            }
-
-            if (State.aiState.action === 'voucher_profile') {
-                const perfis = Array.from(document.getElementById('select-profile').options);
-                let perfilEncontrado = perfis.find(opt => t.includes(opt.value.toLowerCase()))?.value || "default";
-                let tempo = "1h"; if (t.includes("12 horas")) tempo = "12h"; else if (t.includes("dia")) tempo = "1d"; else if (t.includes("mes") || t.includes("30 dias")) tempo = "30d";
-                document.getElementById('select-profile').value = perfilEncontrado; document.getElementById('select-time').value = tempo;
-                resposta = `Perfil: ${perfilEncontrado}, Tempo: ${tempo}. Confirma a criação? (Diga Sim)`; State.aiState.action = 'voucher_confirm'; this.speak(resposta); this.addMessage(resposta, 'ai'); return;
-            }
-            if (State.aiState.action === 'voucher_confirm') {
-                if (t.includes("sim") || t.includes("certo")) { resposta = "Gerando vouchers..."; Hotspot.createUsers(); } else { resposta = "Cancelado."; }
-                State.reset(); this.speak(resposta); this.addMessage(resposta, 'ai'); return;
-            }
-            if (State.aiState.action === 'confirm_reboot') { if (t.includes("sim")) { Network.rebootSystem(); resposta = "Reiniciando..."; } else { resposta = "Cancelado."; } State.reset(); this.speak(resposta); this.addMessage(resposta, 'ai'); return; }
-            if (State.aiState.action === 'confirm_ppp') { if (t.includes("sim")) { PPPoE.createClient(); resposta = "Criando..."; } else { resposta = "Cancelado."; } State.reset(); this.speak(resposta); this.addMessage(resposta, 'ai'); return; }
-            if (State.aiState.action === 'confirm_renew') { if (t.includes("sim")) { Financial.payAndRenew(); resposta = "Processando..."; } else { resposta = "Cancelado."; } State.reset(); this.speak(resposta); this.addMessage(resposta, 'ai'); return; }
-
-            if (t.includes("enviar") && (t.includes("voucher") || t.includes("revendedor") || t.includes("whatsapp"))) {
-                if (!State.lastVouchers) resposta = "Nenhum voucher recente."; else { resposta = "Diga os números do WhatsApp do revendedor."; State.aiState.action = 'ask_reseller_phone'; }
-            } else if (t.includes("voucher") || t.includes("hotspot")) {
-                const num = t.match(/\d+/); const qtd = num ? parseInt(num[0]) : 1; document.getElementById('select-qty').value = qtd;
-                State.aiState.action = 'voucher_profile'; State.aiState.data = { qtd }; resposta = `Serão ${qtd} vouchers. Qual o perfil e tempo?`;
-            } else if (t.includes("criar cliente")) {
-                const partes = t.split(" "); const idxNome = Math.max(partes.indexOf("cliente"), partes.indexOf("pppoe")) + 1; const idxSenha = partes.indexOf("senha");
-                if (idxNome > 0 && idxSenha > 0) { document.getElementById('ppp-user').value = partes[idxNome]; document.getElementById('ppp-pass').value = partes[idxSenha + 1]; resposta = `Confirma? (Diga Sim)`; State.aiState.action = 'confirm_ppp'; }
-            } else if (t.includes("renovar") || t.includes("pagar")) {
-                const nome = t.replace(/renovar|pagar/g, '').trim(); const select = document.getElementById('fin-cliente-select'); let found = false;
-                for (let i = 0; i < select.options.length; i++) { if (select.options[i].text.toLowerCase().includes(nome)) { select.selectedIndex = i; found = true; break; } }
-                if (found) { Financial.checkExpiration(); resposta = `Cliente ${nome} encontrado. Confirma renovação? (Diga Sim)`; State.aiState.action = 'confirm_renew'; } else resposta = `Não encontrado.`;
-            } else if (t.includes("contrato")) {
-                const nome = t.split("para")[1]?.trim() || ""; if (nome) { document.getElementById('c_nome').value = nome; resposta = `Gerando contrato...`; setTimeout(() => Contract.print(), 1000); }
-            } else if (t.includes("reiniciar") || t.includes("reboot")) { resposta = "Certeza que deseja reiniciar? (Diga Sim)"; State.aiState.action = 'confirm_reboot';
-            } else if (t.includes("online")) { resposta = `Há ${document.getElementById('stat-online')?.innerText || '0'} clientes online.`;
-            } else if (t.includes("ip")) {
-                const ip = t.match(/\d+\.\d+\.\d+\.\d+/); if (ip) { const antena = State.antennas.find(a => a.ip === ip[0]); resposta = antena ? `O IP pertence a ${antena.nome}.` : `Não encontrado.`; }
-            }
-
-            this.addMessage(resposta, 'ai'); this.speak(resposta);
-        },
-        addMessage(msg, type) { const chat = document.getElementById('chat-history'); const div = document.createElement('div'); div.className = `ai-message ${type === 'user' ? 'user' : ''}`; div.innerText = msg; chat.appendChild(div); chat.scrollTop = chat.scrollHeight; },
-        speak(texto) { if ('speechSynthesis' in window) { const utterance = new SpeechSynthesisUtterance(texto); utterance.lang = 'pt-PT'; utterance.rate = 1.1; window.speechSynthesis.speak(utterance); } },
-        saveTask(tipo, texto, icone) { const tasks = Utils.getStorage(CONFIG.STORAGE_KEYS.TASKS); tasks.unshift({ id: Date.now(), tipo, text: texto, icon: icone, date: new Date().toLocaleString('pt-AO') }); Utils.setStorage(CONFIG.STORAGE_KEYS.TASKS, tasks); this.renderTasks(tasks); },
-        loadTasks() { this.renderTasks(Utils.getStorage(CONFIG.STORAGE_KEYS.TASKS)); },
-        renderTasks(tasks) { const lista = document.getElementById('listaApontamentos'); if (!lista) return; if (tasks.length === 0) { lista.innerHTML = '<li style="text-align: center; padding: 20px;">Vazio</li>'; return; } lista.innerHTML = tasks.map(t => `<li class="task-item"><div class="flex" style="align-items: center; gap: 12px;"><i class="fas ${t.icon || 'fa-circle'}" style="color:var(--primary); font-size: 20px;"></i><div><strong style="color: var(--primary);">${t.tipo}</strong><br><span style="color: var(--text-main);">${t.text}</span></div></div><div style="text-align: right;"><small style="color: var(--text-secondary);">${t.date}</small><br><button class="btn-danger btn-sm mt-1" onclick="AI.deleteTask(${t.id})">🗑️</button></div></li>`).join(''); },
-        deleteTask(id) { let tasks = Utils.getStorage(CONFIG.STORAGE_KEYS.TASKS); tasks = tasks.filter(t => t.id !== id); Utils.setStorage(CONFIG.STORAGE_KEYS.TASKS, tasks); this.renderTasks(tasks); }
-    };
-
-    window.addEventListener('DOMContentLoaded', () => { App.init(); AI.init(); });
-
-    // Expor globalmente para os botões do HTML
-    window.App = App; window.Hotspot = Hotspot; window.PPPoE = PPPoE; window.Network = Network; window.Financial = Financial; window.Contract = Contract; window.Antenna = Antenna; window.AI = AI;
+    window.onload = () => App.init();
 </script>
 </body>
 </html>
